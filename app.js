@@ -39,7 +39,7 @@ FacebookAuth(app, passport);
 //REGISTER ROUTES HERE
 app.use("/api/v1/user", userRoutes);
 
-app.get("/app", (req, res) => {
+app.get("/api", (req, res) => {
     const response = new Response(
         true,
         200,
