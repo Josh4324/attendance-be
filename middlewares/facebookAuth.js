@@ -6,7 +6,7 @@ module.exports = function FacebookAuth(app, passport){
     app.get(
       "/auth/facebook/callback",
       passport.authenticate("facebook", {
-        successRedirect: "/",
+        successRedirect: "/success",
         failureRedirect: "/fail"
       })
     );
@@ -15,7 +15,7 @@ module.exports = function FacebookAuth(app, passport){
       res.send("Failed attempt");
     });
     
-    app.get("/", (req, res) => {
+    app.get("/success", (req, res) => {
       res.send("Success");
     });
       
