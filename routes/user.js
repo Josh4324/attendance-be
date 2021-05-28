@@ -4,6 +4,8 @@ const {Token} = require('../helpers');
 const userController = require("../controllers/user-controller");
 const validation = require("../middlewares/validation");
 const auth = require("../middlewares/authorization");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 const token = new Token();
 
@@ -36,6 +38,13 @@ router.patch(
     '/', 
     token.verifyToken,
     userController.updateProfile
+);
+
+router.patch(
+    '/image', 
+    token.verifyToken, 
+    upload.single("picture"),
+    userController.imageUpload
 );
 
 

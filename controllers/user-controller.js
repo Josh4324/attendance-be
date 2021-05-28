@@ -1,10 +1,17 @@
 const UserService = require("../services/user-service");
 const MailService = require("../services/mail-service");
+const cloudinary = require("cloudinary").v2;
 const argon2 = require("argon2");
 const {Response, Token } = require('../helpers');
 const {JWT_SECRET} = process.env;
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require('uuid');
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
+  });
 
 
 
@@ -113,7 +120,8 @@ exports.logIn = async (req, res) => {
         const data = {
             id: userData.id,
             token: newToken,
-            role: userData.role
+            role: userData.role,
+            onboardingStep: userData.onboardingStep
         } 
         const response = new Response(
             true,
@@ -269,6 +277,36 @@ exports.updateProfile = async (req, res) => {
         res.status(response.code).json(response);
 
     }catch (err){
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        res.status(response.code).json(response);
+    }
+}
+
+exports.imageUpload = async (req, res) => {
+    try {
+        const {id} = req.payload;
+
+        cloudinary.uploader.upload(req.file.path, async (error, result) => {
+            if (result) {
+                let picture = result.secure_url;
+                const user = await userService.updateUser(id, {picture})
+                
+                const response = new Response(
+                    true,
+                    200,
+                    "Image uploaded successfully",
+                  );
+                res.status(response.code).json(response);
+                
+            }
+        });
+       
+    } catch (err) {
         const response = new Response(
             false,
             500,

@@ -56,7 +56,7 @@ class EmailNotifications {
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
-                      <p>Dear ${name}</p>
+                      <p>Dear new User</p>
 
                         Welcome to TrendUpp! We are excited to have you! <br/><br/>      
                           
