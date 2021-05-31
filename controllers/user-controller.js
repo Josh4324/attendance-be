@@ -287,6 +287,32 @@ exports.updateProfile = async (req, res) => {
     }
 }
 
+exports.getProfileData = async (req, res) => {
+    try {
+        const {id} = req.payload;
+
+        const user = await userService.findUser(id);
+
+       const response = new Response(
+            true,
+            200,
+            "Success",
+            user
+          );
+        res.status(response.code).json(response);
+        
+    }catch(err){
+        console.log(err);
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        res.status(response.code).json(response);
+    }
+}
+
 exports.imageUpload = async (req, res) => {
     try {
         const {id} = req.payload;
@@ -300,6 +326,7 @@ exports.imageUpload = async (req, res) => {
                     true,
                     200,
                     "Image uploaded successfully",
+                    picture
                   );
                 res.status(response.code).json(response);
                 

@@ -40,12 +40,20 @@ router.patch(
     userController.updateProfile
 );
 
+router.get(
+    '/', 
+    token.verifyToken,
+    userController.getProfileData
+);
+
 router.patch(
     '/image', 
     token.verifyToken, 
     upload.single("picture"),
     userController.imageUpload
 );
+
+
 
 
 

@@ -2,7 +2,7 @@ const User = require("../models/index")['User'];
 
 module.exports = class UserService {
     async findUser(userId){
-        return await Plan.findAll({where : {userId}});
+        return await User.findOne({where : {id : userId}});
     }
 
     async findUserWithEmail(email){
