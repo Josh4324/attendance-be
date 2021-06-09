@@ -143,6 +143,45 @@ exports.logIn = async (req, res) => {
     }
 }
 
+exports.checkUserName = async (req, res) => {
+    try {
+        const {
+           username
+        } = req.body
+
+        console.log(req.body);
+
+        const user = await userService.findUserWithUserName(username);
+        
+
+        let IsUserNameExists;
+
+        if (user === null){
+            IsUserNameExists = false;
+        }else{
+            IsUserNameExists = true; 
+        }
+    
+        const response = new Response(
+            true,
+            200,
+            "Success",
+            IsUserNameExists
+          );
+        return res.status(response.code).json(response);
+
+    } catch (err) {
+        console.log(err);
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        return res.status(response.code).json(response);
+    }
+}
+
 exports.verifyEmail = async (req, res) => {
     try {
        

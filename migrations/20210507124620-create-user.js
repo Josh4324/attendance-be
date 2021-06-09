@@ -74,6 +74,9 @@ module.exports = {
       token: {
         type: Sequelize.STRING
       },
+      showComplete: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

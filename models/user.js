@@ -36,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     youtubeLink: DataTypes.STRING,
     verified: DataTypes.BOOLEAN,
     token:DataTypes.STRING,
+    showComplete: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'User',

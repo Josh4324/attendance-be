@@ -46,6 +46,12 @@ router.get(
     userController.getProfileData
 );
 
+router.post(
+    '/checkUser', 
+    token.verifyToken,
+    userController.checkUserName
+);
+
 router.patch(
     '/image', 
     token.verifyToken, 

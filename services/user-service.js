@@ -5,6 +5,10 @@ module.exports = class UserService {
         return await User.findOne({where : {id : userId}});
     }
 
+    async findUserWithUserName(username){
+        return await User.findOne({where : {userName : username}});
+    }
+
     async findUserWithEmail(email){
         return await User.findOne({where : {email}});
     }  

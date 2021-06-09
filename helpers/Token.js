@@ -27,8 +27,10 @@ async generateToken(payload, JWT_EXPIRES_IN = expires ){
   */
  verifyToken(req, res, next) {
     const token = req.headers.authorization.split(" ")[1];
+    console.log(token)
     try {
       if (!token) {
+        console.log("here")
         const response = new Response(
           false,
           401,
@@ -36,7 +38,6 @@ async generateToken(payload, JWT_EXPIRES_IN = expires ){
         );
         return res.status(response.code).json(response);
       }
-      
       const payload = jwt.verify(token,JWT_SECRET);
       req.payload = payload;
 
