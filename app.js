@@ -13,6 +13,7 @@ require('./social-auth/facebook-passport');
 
 
 const userRoutes = require("./routes/user.js");
+const postRoutes = require("./routes/post.js");
 
 const port = process.env.PORT || 3000;
 
@@ -38,6 +39,7 @@ FacebookAuth(app, passport);
 
 //REGISTER ROUTES HERE
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/post", postRoutes);
 
 app.get("/api", (req, res) => {
     const response = new Response(

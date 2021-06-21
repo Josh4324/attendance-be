@@ -120,7 +120,7 @@ exports.logIn = async (req, res) => {
         const data = {
             id: userData.id,
             token: newToken,
-            role: userData.role,
+            userType: userData.userType,
             onboardingStep: userData.onboardingStep
         } 
         const response = new Response(
