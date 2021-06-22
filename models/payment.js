@@ -17,7 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     reference: DataTypes.STRING,
     amount: DataTypes.STRING,
     payment_plan: DataTypes.STRING,
-    fanId: DataTypes.STRING,
+    email: DataTypes.STRING,
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    message: DataTypes.STRING,
     creatorId: DataTypes.STRING,
     status: DataTypes.STRING
   }, {

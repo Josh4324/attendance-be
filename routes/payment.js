@@ -11,22 +11,10 @@ const token = new Token();
 
 router.post(
     '/',
-    token.verifyToken,
-    upload.single("image"),
-    postController.createPost
+    paymentController.initiatePayment
 );
 
-router.get(
-    '/',
-    token.verifyToken,
-    postController.getAllPosts
-);
 
-router.patch(
-    '/',
-    token.verifyToken,
-    postController.updatePost
-);
 
 
 

@@ -17,8 +17,17 @@ module.exports = {
       payment_plan: {
         type: Sequelize.STRING
       },
-      fanId: {
+      firstName: {
         type: Sequelize.STRING
+      },
+      lastName: {
+        type: Sequelize.STRING
+      },
+      email: {
+        type: Sequelize.STRING
+      },
+      message: {
+        type: Sequelize.STRING(1000)
       },
       creatorId: {
         type: Sequelize.STRING
