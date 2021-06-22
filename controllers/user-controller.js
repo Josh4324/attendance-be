@@ -353,6 +353,34 @@ exports.getProfileData = async (req, res) => {
     }
 }
 
+exports.getUserData = async (req, res) => {
+    try {
+        const {username} = req.query;
+
+        console.log(username)
+
+        const user = await userService.findUserWithUserName(username);
+
+       const response = new Response(
+            true,
+            200,
+            "Success",
+            user
+          );
+        res.status(response.code).json(response);
+        
+    }catch(err){
+        console.log(err);
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        res.status(response.code).json(response);
+    }
+}
+
 exports.imageUpload = async (req, res) => {
     try {
         const {id} = req.payload;

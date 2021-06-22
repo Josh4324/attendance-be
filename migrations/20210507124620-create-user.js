@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       about: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       firstName: {
         type: Sequelize.STRING

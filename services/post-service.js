@@ -6,7 +6,7 @@ module.exports = class UserService {
     }
 
     async findAllPostwithUserId(userId){
-        return await Post.find({where : {userId}});
+        return await Post.findAll({where : {userId}});
     }  
 
     async createPost(post){
@@ -14,7 +14,7 @@ module.exports = class UserService {
     }
 
     async updatePost(id, payload){
-        return await User.update(payload, {
+        return await Post.update(payload, {
             where: {
                 id
             }

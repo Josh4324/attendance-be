@@ -46,6 +46,11 @@ router.get(
     userController.getProfileData
 );
 
+router.get(
+    '/userdata', 
+    userController.getUserData
+);
+
 router.post(
     '/checkUser', 
     token.verifyToken,

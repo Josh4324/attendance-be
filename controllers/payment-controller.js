@@ -1,46 +1,28 @@
-const PostService = require("../services/post-service");
-const UserService = require("../services/user-service");
-const cloudinary = require("cloudinary").v2;
+const PaymentService = require("../services/payment-service");
 const {Response, Token } = require('../helpers');
 const { v4: uuidv4 } = require('uuid');
 
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET,
-  });
 
-const postService = new PostService();
-const userService = new UserService();
+const paymentService = new PaymentService();
 
-exports.createPost = async (req, res) => {
+exports.initiatePayment = async (req, res) => {
     try {
+        const reference = uuidv4();
+        const status = "pending";
+        
+        req.body.reference = reference;
+        req.body.status = status;
 
-        const {title, message, postType} = req.body;
-        const {id} = req.payload;
-
-        cloudinary.uploader.upload(req.file.path, async (error, result) => {
-            if (result) {
-                let image = result.secure_url;
-                const data = {
-                    title,
-                    message,
-                    postType,
-                    image,
-                    userId: id
-                }
-                const post = await postService.createPost(data)
+        const payment = await paymentService.initiatePayment(req.body)
                 
-                const response = new Response(
-                    true,
-                    200,
-                    "Post created successfully",
-                    post
-                  );
-                return res.status(response.code).json(response);
+        const response = new Response(
+            true,
+            200,
+            "Payment initiated successfully",
+            payment
+            );
+        return res.status(response.code).json(response);
                 
-            }
-        });
     } catch (err) {
         console.log(err);
         const response = new Response(
@@ -80,10 +62,7 @@ exports.updatePost = async (req, res) => {
 
 exports.getAllPosts = async (req, res) => {
     try {
-        const {username} = req.query;
-
-        const user =  await userService.findUserWithUserName(username);
-        const id = user.id;
+        const {id} = req.payload;
 
         const posts = await postService.findAllPostwithUserId(id);
 
