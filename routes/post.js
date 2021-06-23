@@ -22,6 +22,12 @@ router.get(
     postController.getAllPosts
 );
 
+router.get(
+    '/all',
+    token.verifyToken,
+    postController.getPosts
+);
+
 router.patch(
     '/',
     token.verifyToken,
