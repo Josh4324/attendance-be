@@ -5,10 +5,10 @@ module.exports = class PaymentService {
         return await Payment.create(payment);
     }
 
-    async verifyPayment(id, payload){
+    async verifyPayment(reference, payload){
         return await Payment.update(payload, {
             where: {
-                id
+                reference
             }
         })
     }

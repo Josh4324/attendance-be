@@ -35,46 +35,21 @@ exports.initiatePayment = async (req, res) => {
     }
 }
 
-exports.updatePost = async (req, res) => {
-    try {
-        const {id} = req.payload;
-        
-        const post = await postService.updatePost(id, req.body)
 
+exports.verifyPayment = async (req, res) => {
+    try {
+        const {reference, status} = req.body
+        const payment = await paymentService.verifyPayment(reference, {status})
+                
         const response = new Response(
             true,
             200,
-            "post updated successfully",
-            post
-          );
-        res.status(response.code).json(response);
-
-    }catch (err){
-        const response = new Response(
-            false,
-            500,
-            "Server Error",
-            err
-          );
-        res.status(response.code).json(response);
-    }
-}
-
-exports.getAllPosts = async (req, res) => {
-    try {
-        const {id} = req.payload;
-
-        const posts = await postService.findAllPostwithUserId(id);
-
-       const response = new Response(
-            true,
-            200,
-            "Success",
-            posts
-          );
-        res.status(response.code).json(response);
-        
-    }catch(err){
+            "Payment detail updated",
+            payment
+            );
+        return res.status(response.code).json(response);
+                
+    } catch (err) {
         console.log(err);
         const response = new Response(
             false,
@@ -82,8 +57,7 @@ exports.getAllPosts = async (req, res) => {
             "Server Error",
             err
           );
-        res.status(response.code).json(response);
+        return res.status(response.code).json(response);
     }
 }
-
 

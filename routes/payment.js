@@ -14,6 +14,11 @@ router.post(
     paymentController.initiatePayment
 );
 
+router.patch(
+    '/',
+    paymentController.verifyPayment
+);
+
 
 
 
