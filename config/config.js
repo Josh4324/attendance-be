@@ -6,11 +6,10 @@ if (!process.env.HOST){
     path: path.join(__dirname, "..", ".env")
   })
 }
-console.log( process.env.USER)
-console.log(process.env.PASS)
+
 module.exports = {
   host: process.env.HOST,
-  username: process.env.USER,
+  username: process.env.POST_USER,
   password: process.env.PASS,
   port: process.env.DB_PORT,
   database: process.env.DB,
