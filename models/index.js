@@ -23,6 +23,11 @@ let sequelize = new Sequelize({
   },
 })
 
+sequelize.authenticate().then(() => {
+  console.log("success")
+}).catch((err) => {
+  console.log(err)
+})
 
 fs
   .readdirSync(__dirname)

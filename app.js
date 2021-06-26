@@ -2,6 +2,7 @@ const express = require("express");
 const Middleware = require("./middlewares/common");
 const GoogleAuth = require("./middlewares/googleAuth");
 const FacebookAuth = require("./middlewares/facebookAuth");
+const sequelize = require('sequelize');
 require("dotenv").config();
 const chalk = require('chalk');
 const Response = require('./helpers/Response');
@@ -62,6 +63,9 @@ app.all("*", (req, res, next) => {
       );
     return res.status(response.code).json(response);
 });
+
+
+
 
 
 
