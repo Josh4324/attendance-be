@@ -14,7 +14,13 @@ let sequelize = new Sequelize({
   password: config.password,
   port: config.port,
   database: config.database,
-  dialect: "postgres"
+  dialect: "postgres",
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false // <<<<<<< YOU NEED THIS
+    }
+  },
 })
 
 
