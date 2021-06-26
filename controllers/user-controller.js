@@ -210,6 +210,12 @@ exports.verifyEmail = async (req, res) => {
         const token = userData.token;
         const payload = jwt.verify(token,JWT_SECRET);
 
+        const newPayload = {
+            id
+        }
+
+        const newToken = await token.generateToken(newPayload, 600);
+
         const updatePayload = {
             verified: true
         }
@@ -223,11 +229,17 @@ exports.verifyEmail = async (req, res) => {
            return res.status(response.code).json(response);
         }
 
+        const data = {
+            token : newToken,
+            id
+        }
+
            const updatedUser = await userService.updateUser(id, updatePayload);
            const response = new Response(
             true,
             200,
             "User Verified Successfully",
+            data
           );
         return res.status(response.code).json(response);
    
