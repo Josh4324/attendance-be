@@ -6,7 +6,8 @@ if (!process.env.HOST){
     path: path.join(__dirname, "..", ".env")
   })
 }
-
+console.log( process.env.USER)
+console.log(process.env.PASS)
 module.exports = {
   host: process.env.HOST,
   username: process.env.USER,
