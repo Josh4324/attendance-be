@@ -207,14 +207,14 @@ exports.verifyEmail = async (req, res) => {
            return res.status(response.code).json(response);
         }
         
-        const token = userData.token;
-        const payload = jwt.verify(token,JWT_SECRET);
+        const token1 = userData.token;
+        const payload = jwt.verify(token1,JWT_SECRET);
 
         const newPayload = {
             id
         }
 
-        const newToken = await token.generateToken(newPayload, 600);
+        const newToken = await token.generateToken(newPayload);
 
         const updatePayload = {
             verified: true
