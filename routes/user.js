@@ -18,6 +18,11 @@ router.post(
 );
 
 router.post(
+    '/anon-signup', 
+    userController.anonymousSignUp
+);
+
+router.post(
     '/login', 
     validation.loginValidationRules(), 
     validation.validate, 

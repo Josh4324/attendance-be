@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     accNumber: DataTypes.STRING,
     facebookLink: DataTypes.STRING,
     twitterLink: DataTypes.STRING,
+    instagramLink: DataTypes.STRING,
     youtubeLink: DataTypes.STRING,
     verified: DataTypes.BOOLEAN,
     token:DataTypes.STRING,

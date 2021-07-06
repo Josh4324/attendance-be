@@ -46,7 +46,6 @@ exports.signUp = async (req, res) => {
         req.body.role = "user";
         req.body.verified = false;
         req.body.token = newToken;
-        console.log(req.body)
         const newUser = await userService.createUser(req.body);
 
         
@@ -54,7 +53,7 @@ exports.signUp = async (req, res) => {
         //const verificationToken = await token.generateToken(payload, 600)
         //const verificationLink = `http://${req.headers.host}/api/v1/user/verify/${newUser._id}/${verificationToken}`;
         // send verification mail
-        const mail = await mailService.sendSignupEmail(newUser.email, code, newUser.firstName)
+        const mail = await mailService.sendSignupEmail(newUser.email, code, newUser.firstName);
  
          const data = {
             id: newUser.id,
@@ -77,6 +76,51 @@ exports.signUp = async (req, res) => {
           );
         return res.status(response.code).json(response);
     }
+}
+
+exports.anonymousSignUp = async (req,res) => {
+
+    try {
+        const {email} = req.body;
+        const user = await userService.findUserWithEmail(email);
+        if (user) {
+            const response = new Response(
+                true,
+                409,
+                "This user already exists",
+              );
+            return  res.status(response.code).json(response);
+        }
+
+        const password  = await argon2.hash("password1");
+        req.body.password = password;
+        req.body.role = "user";
+        req.body.verified = false;
+        const newUser = await userService.createUser(req.body);
+
+        const mail = await mailService.sendAnonymousSignupEmail(newUser.email, newUser.firstName);
+ 
+         const data = {
+            id: newUser.id,
+            role: "user",
+        } 
+        const response = new Response(
+            true,
+            201,
+            "User created successfully",
+            data
+          );
+         return res.status(response.code).json(response);
+    }catch(err){
+        console.log(err);
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        return res.status(response.code).json(response);
+    }    
 }
 
 exports.logIn = async (req, res) => {

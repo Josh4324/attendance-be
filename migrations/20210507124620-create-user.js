@@ -65,6 +65,9 @@ module.exports = {
       twitterLink: {
         type: Sequelize.STRING
       },
+      instagramLink: {
+        type: Sequelize.STRING
+      },
       youtubeLink: {
         type: Sequelize.STRING
       },
