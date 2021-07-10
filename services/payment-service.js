@@ -6,7 +6,10 @@ module.exports = class PaymentService {
     }
 
     async getSupporters(creatorId){
-        return await Payment.findAll({where : {creatorId, status: "approved"}});
+        return await Payment.findAll({
+            where : {creatorId, status: "approved"}, 
+            order: [ ['createdAt', 'DESC']]
+        });
     }
 
     async getUniqueSupporters(creatorId){

@@ -6,7 +6,10 @@ module.exports = class UserService {
     }
 
     async findAllPostwithUserId(userId){
-        return await Post.findAll({where : {userId}});
+        return await Post.findAll({
+            where : {userId},
+            order: [ ['createdAt', 'DESC']]
+        });
     }  
 
     async createPost(post){
