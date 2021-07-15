@@ -29,9 +29,15 @@ router.get(
 );
 
 router.patch(
-    '/',
+    '/:postId',
     token.verifyToken,
     postController.updatePost
+);
+
+router.delete(
+    '/:postId',
+    token.verifyToken,
+    postController.deletePost
 );
 
 

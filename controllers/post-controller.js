@@ -55,9 +55,8 @@ exports.createPost = async (req, res) => {
 
 exports.updatePost = async (req, res) => {
     try {
-        const {id} = req.payload;
-        
-        const post = await postService.updatePost(id, req.body)
+        const postId = req.params.postId;
+        const post = await postService.updatePost(postId, req.body)
 
         const response = new Response(
             true,
@@ -118,6 +117,32 @@ exports.getPosts = async (req, res) => {
             200,
             "Success",
             posts
+          );
+        res.status(response.code).json(response);
+        
+    }catch(err){
+        console.log(err);
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        res.status(response.code).json(response);
+    }
+}
+
+exports.deletePost = async (req, res) => {
+    try {
+        const postId = req.params.postId;
+
+        const post = await postService.deletePost(postId);
+
+       const response = new Response(
+            true,
+            200,
+            "Success",
+            post
           );
         res.status(response.code).json(response);
         

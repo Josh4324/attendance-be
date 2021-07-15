@@ -24,5 +24,13 @@ module.exports = class UserService {
         })
     }
 
+     async deletePost(postId){
+        return await Post.destroy({
+             where: {
+                id: postId
+            }
+        });
+    }
+
 
 }
