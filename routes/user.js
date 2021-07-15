@@ -63,6 +63,12 @@ router.post(
 );
 
 router.patch(
+    '/reset',
+    token.verifyToken,
+    userController.resetPassword
+)
+
+router.patch(
     '/image', 
     token.verifyToken, 
     upload.single("picture"),

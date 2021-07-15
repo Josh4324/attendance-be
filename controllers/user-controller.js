@@ -468,3 +468,49 @@ exports.imageUpload = async (req, res) => {
     }
 }
 
+exports.resetPassword = async (req,res) => {
+    try {
+       
+        const {
+            oldPassword,
+            newPassword,
+        } = req.body
+
+        const {id} = req.payload;
+       
+        const realUser = await userService.findUser(id);
+
+        const userPassword = realUser.password
+        const checkPassword = await argon2.verify(userPassword, oldPassword);
+
+        if (!realUser || !(checkPassword)) {
+            const response = new Response(
+                false,
+                401,
+                "Incorrect email or password",
+              );
+            return res.status(response.code).json(response);
+        }
+
+        const password = await argon2.hash(newPassword); 
+
+        const user = await userService.updateUser(id, {password})
+
+        const response = new Response(
+            true,
+            200,
+            "Password reset successful",
+            user
+          );
+        res.status(response.code).json(response);
+
+    } catch (err) {
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        res.status(response.code).json(response);
+    }
+}
