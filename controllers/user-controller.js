@@ -1,5 +1,6 @@
 const UserService = require("../services/user-service");
 const MailService = require("../services/mail-service");
+const PaymentService = require("../services/payment-service");
 const cloudinary = require("cloudinary").v2;
 const argon2 = require("argon2");
 const {Response, Token } = require('../helpers');
@@ -13,10 +14,9 @@ cloudinary.config({
     api_secret: process.env.API_SECRET,
   });
 
-
-
 const userService = new UserService();
 const mailService = new MailService();
+const paymentService = new PaymentService();
 const token = new Token();
 
 exports.signUp = async (req, res) => {
@@ -505,6 +505,63 @@ exports.resetPassword = async (req,res) => {
         res.status(response.code).json(response);
 
     } catch (err) {
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        res.status(response.code).json(response);
+    }
+}
+
+exports.getCreators = async (req, res) => {
+    try {
+        const creators = await userService.findCreators();
+
+       const response = new Response(
+            true,
+            200,
+            "Success",
+            creators
+          );
+        res.status(response.code).json(response);
+        
+    }catch(err){
+        console.log(err);
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        res.status(response.code).json(response);
+    }
+}
+
+exports.getSupportedCreators = async (req, res) => {
+    try {
+        const {email} = req.query;
+
+        const creators =  await paymentService.getApprovedPayment(email);
+        let idList = []
+        creators.map((item) => {
+          idList.push(Number(item.creatorId));
+        })
+        idList = [...new Set(idList)]
+      
+        const posts = await userService.findAllUserwithOneOrMultipleUserId(idList);
+
+        const response = new Response(
+            true,
+            200,
+            "Success",
+           posts
+          );
+        res.status(response.code).json(response);
+        
+    }catch(err){
+        console.log(err);
         const response = new Response(
             false,
             500,

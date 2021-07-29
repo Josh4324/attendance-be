@@ -23,6 +23,7 @@ let sequelize = new Sequelize({
   },
 })
 
+// check database connection
 sequelize.authenticate().then(() => {
   console.log("success")
 }).catch((err) => {

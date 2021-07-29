@@ -1,5 +1,6 @@
 const PostService = require("../services/post-service");
 const UserService = require("../services/user-service");
+const PaymentService = require("../services/payment-service");
 const cloudinary = require("cloudinary").v2;
 const {Response, Token } = require('../helpers');
 const { v4: uuidv4 } = require('uuid');
@@ -12,6 +13,7 @@ cloudinary.config({
 
 const postService = new PostService();
 const userService = new UserService();
+const paymentService = new PaymentService();
 
 exports.createPost = async (req, res) => {
     try {
@@ -106,6 +108,39 @@ exports.getAllPosts = async (req, res) => {
     }
 }
 
+exports.getFanPosts = async (req, res) => {
+    try {
+        const {email} = req.query;
+
+        const creators =  await paymentService.getApprovedPayment(email);
+        let idList = []
+        creators.map((item) => {
+          idList.push(Number(item.creatorId));
+        })
+        idList = [...new Set(idList)]
+      
+        const posts = await postService.findAllPostwithOneOrMultipleUserId(idList);
+
+        const response = new Response(
+            true,
+            200,
+            "Success",
+           posts
+          );
+        res.status(response.code).json(response);
+        
+    }catch(err){
+        console.log(err);
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        res.status(response.code).json(response);
+    }
+}
+
 exports.getPosts = async (req, res) => {
     try {
         const {id} = req.payload;
@@ -157,5 +192,7 @@ exports.deletePost = async (req, res) => {
         res.status(response.code).json(response);
     }
 }
+
+
 
 

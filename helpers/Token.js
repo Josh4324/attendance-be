@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const {JWT_SECRET, JWT_EXPIRES_IN} = process.env
 const Response = require('./Response');
 /** Token Helper Class */
@@ -13,6 +14,7 @@ module.exports = class Token {
    */
 
 async generateToken(payload, JWT_EXPIRES_IN = expires ){
+    console.log(JWT_SECRET)
     return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN })
 }
 

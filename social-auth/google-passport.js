@@ -27,7 +27,8 @@ passport.use(new GoogleStrategy({
         firstName,
         lastName,
         email,
-        verified: true
+        verified: true,
+        onboardingStep: 1,
     }
       if (!user){
         await userService.createUser(userData)

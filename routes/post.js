@@ -28,6 +28,12 @@ router.get(
     postController.getPosts
 );
 
+router.get(
+    '/fanpost',
+    token.verifyToken,
+    postController.getFanPosts
+);
+
 router.patch(
     '/:postId',
     token.verifyToken,

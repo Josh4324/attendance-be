@@ -1,4 +1,5 @@
 const User = require("../models/index")['User'];
+const { Op } = require("sequelize");
 
 module.exports = class UserService {
     async findUser(userId){
@@ -13,7 +14,26 @@ module.exports = class UserService {
 
     async findUserWithEmail(email){
         return await User.findOne({where : {email}});
-    }  
+    }
+
+     async findCreators(){
+        return await User.findAll({
+            where: {
+                userType: "creator"
+            }
+        });
+    }
+
+     async findAllUserwithOneOrMultipleUserId(list){
+        return await User.findAll({
+            where:{
+                id: {
+                [Op.or]: list
+            },
+            },
+            order: [ ['createdAt', 'DESC']]
+        });
+    }        
 
     async createUser(user){
         return await User.create(user);
