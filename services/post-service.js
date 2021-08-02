@@ -13,6 +13,13 @@ module.exports = class UserService {
         });
     }
 
+    async findPostAndUserDetailswithUserId(userId){
+        return await Post.findAll({
+            where : {userId},
+            order: [ ['createdAt', 'DESC']]
+        });
+    }
+
     async findAllPostwithOneOrMultipleUserId(list){
         return await Post.findAll({
             where:{

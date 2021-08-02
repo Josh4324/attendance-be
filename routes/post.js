@@ -34,6 +34,11 @@ router.get(
     postController.getFanPosts
 );
 
+router.get(
+    '/:postId',
+    postController.getPostAndUser
+);
+
 router.patch(
     '/:postId',
     token.verifyToken,

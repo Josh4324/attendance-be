@@ -167,6 +167,48 @@ exports.getPosts = async (req, res) => {
     }
 }
 
+exports.getPostAndUser = async (req, res) => {
+  try {
+      const postId = req.params.postId;
+      console.log(postId)
+      const post = await postService.findPost(postId);
+      
+      if (!post){
+        const response = new Response(
+          true,
+          200,
+          "Error",
+          "post with this id does not exist"
+        );
+      return res.status(response.code).json(response);
+      }
+
+      const userId = post.userId;
+      const user = await userService.findUser(userId);
+
+     const response = new Response(
+          true,
+          200,
+          "Success",
+          {
+            post,
+            user
+          }
+        );
+      res.status(response.code).json(response); 
+      
+  }catch(err){
+      console.log(err);
+      const response = new Response(
+          false,
+          500,
+          "Server Error",
+          err
+        );
+      res.status(response.code).json(response);
+  }
+}
+
 exports.deletePost = async (req, res) => {
     try {
         const postId = req.params.postId;
