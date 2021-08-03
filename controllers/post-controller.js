@@ -111,6 +111,7 @@ exports.getAllPosts = async (req, res) => {
 exports.getFanPosts = async (req, res) => {
     try {
         const {email} = req.query;
+        console.log(email)
 
         const creators =  await paymentService.getApprovedPayment(email);
         let idList = []
@@ -118,6 +119,7 @@ exports.getFanPosts = async (req, res) => {
           idList.push(Number(item.creatorId));
         })
         idList = [...new Set(idList)]
+        console.log(idList)
       
         const posts = await postService.findAllPostwithOneOrMultipleUserId(idList);
 
@@ -170,7 +172,6 @@ exports.getPosts = async (req, res) => {
 exports.getPostAndUser = async (req, res) => {
   try {
       const postId = req.params.postId;
-      console.log(postId)
       const post = await postService.findPost(postId);
       
       if (!post){

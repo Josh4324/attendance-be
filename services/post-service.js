@@ -1,4 +1,5 @@
 const Post = require("../models/index")['Post'];
+const User = require("../models/index")['User'];
 const { Op } = require("sequelize");
 
 module.exports = class UserService {
@@ -13,13 +14,6 @@ module.exports = class UserService {
         });
     }
 
-    async findPostAndUserDetailswithUserId(userId){
-        return await Post.findAll({
-            where : {userId},
-            order: [ ['createdAt', 'DESC']]
-        });
-    }
-
     async findAllPostwithOneOrMultipleUserId(list){
         return await Post.findAll({
             where:{
@@ -27,6 +21,12 @@ module.exports = class UserService {
                 [Op.or]: list
             },
             },
+            include: [
+                {
+                    model: User,
+                    as: 'user', 
+                },
+            ],
             order: [ ['createdAt', 'DESC']]
         });
     }    

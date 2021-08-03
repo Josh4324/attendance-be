@@ -29,6 +29,10 @@ module.exports = class PaymentService {
         return await Payment.findAll({where : {creatorId, status: "approved", email}});
     }
 
+    async getPaymentHistory(email){
+        return await Payment.findAll({where : {status: "approved", email}});
+    }
+
     async verifyPayment(reference, payload){
         return await Payment.update(payload, {
             where: {

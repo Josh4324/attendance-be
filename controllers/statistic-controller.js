@@ -83,3 +83,33 @@ exports.getHistory = async (req, res) => {
         res.status(response.code).json(response);
     }
 }
+
+exports.getPaymentHistory = async (req, res) => {
+    try {
+        
+        const {id} = req.payload;
+        const email = req.query.email;
+        const creatorId = String(id);
+
+        const history = await paymentService.getPaymentHistory(email);
+
+       const response = new Response(
+            true,
+            200,
+            "Success",
+            history
+          );
+        res.status(response.code).json(response);
+        
+    }catch(err){
+        console.log(err);
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        res.status(response.code).json(response);
+    }
+}
+

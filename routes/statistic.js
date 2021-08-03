@@ -19,6 +19,12 @@ router.get(
     statisticController.getHistory
 );
 
+router.get(
+    '/payment-history',
+    token.verifyToken,
+    statisticController.getPaymentHistory
+);
+
 
 
 

@@ -30,7 +30,6 @@ router.get(
 
 router.get(
     '/fanpost',
-    token.verifyToken,
     postController.getFanPosts
 );
 
