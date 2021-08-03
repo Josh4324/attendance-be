@@ -114,7 +114,7 @@ exports.getFanPosts = async (req, res) => {
         console.log(email)
 
         const creators =  await paymentService.getApprovedPayment(email);
-        let idList = []
+        let idList = [null]
         creators.map((item) => {
           idList.push(Number(item.creatorId));
         })
