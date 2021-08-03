@@ -18,7 +18,7 @@ module.exports = class UserService {
         return await Post.findAll({
             where:{
                 userId: {
-                [Op.and]: [null]
+                [Op.or]: list
             },
             },
             include: [
