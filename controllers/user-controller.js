@@ -544,13 +544,14 @@ exports.getSupportedCreators = async (req, res) => {
         const {email} = req.query;
 
         const creators =  await paymentService.getApprovedPayment(email);
-        let idList = []
+        let idList = [null]
         creators.map((item) => {
           idList.push(Number(item.creatorId));
         })
         idList = [...new Set(idList)]
       
         const posts = await userService.findAllUserwithOneOrMultipleUserId(idList);
+        console.log(posts)
 
         const response = new Response(
             true,
