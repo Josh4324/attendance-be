@@ -30,7 +30,7 @@ module.exports = {
         type: Sequelize.STRING(1000)
       },
       creatorId: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       status: {
         type: Sequelize.STRING

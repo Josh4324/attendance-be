@@ -1,4 +1,5 @@
 const Payment = require("../models/index")['Payment'];
+const User = require("../models/index")['User'];
 
 module.exports = class PaymentService {
     async initiatePayment(payment){
@@ -30,7 +31,19 @@ module.exports = class PaymentService {
     }
 
     async getPaymentHistory(email){
-        return await Payment.findAll({where : {status: "approved", email}});
+        return await Payment.findAll(
+            {
+                where : {status: "approved", email},
+                include: [
+                    {
+                        model: User,
+                        as: 'user', 
+                    },
+                ],
+            
+            }
+            
+            );
     }
 
     async verifyPayment(reference, payload){

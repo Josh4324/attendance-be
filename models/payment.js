@@ -11,9 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Payment.hasMany(models.User, {
+        foreignKey: 'id',
+        as: 'user',
+      });
     }
   };
   Payment.init({
+    id: DataTypes.STRING,
     reference: DataTypes.STRING,
     amount: DataTypes.STRING,
     payment_plan: DataTypes.STRING,
@@ -21,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     message: DataTypes.STRING,
-    creatorId: DataTypes.STRING,
+    creatorId: {type: DataTypes.STRING,primaryKey: true,},
     status: DataTypes.STRING
   }, {
     sequelize,
