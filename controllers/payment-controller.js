@@ -1,9 +1,11 @@
 const PaymentService = require("../services/payment-service");
+const MailService = require("../services/mail-service");
 const {Response, Token } = require('../helpers');
 const { v4: uuidv4 } = require('uuid');
 
 
 const paymentService = new PaymentService();
+const mailService = new MailService();
 
 exports.initiatePayment = async (req, res) => {
     try {
@@ -38,8 +40,13 @@ exports.initiatePayment = async (req, res) => {
 
 exports.verifyPayment = async (req, res) => {
     try {
-        const {reference, status} = req.body
+        const {reference, status, creatorEmail} = req.body
+        console.log(creatorEmail)
         const payment = await paymentService.verifyPayment(reference, {status})
+        if (payment){
+            const mail = await mailService.paymentEmail(creatorEmail);
+        }
+         
                 
         const response = new Response(
             true,
