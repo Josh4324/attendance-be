@@ -7,6 +7,10 @@ const {Response, Token } = require('../helpers');
 const {JWT_SECRET} = process.env;
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require('uuid');
+const generatePassword = require('../helpers/random');
+const front = "http://localhost:3000/#";
+//const front = "http://staging.trendupp.com";
+
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -92,13 +96,14 @@ exports.anonymousSignUp = async (req,res) => {
             return  res.status(response.code).json(response);
         }
 
-        const password  = await argon2.hash("password1");
+        let generatedPassword = generatePassword(5);
+        const password  = await argon2.hash(generatedPassword);
         req.body.password = password;
         req.body.role = "user";
         req.body.verified = false;
         const newUser = await userService.createUser(req.body);
 
-        const mail = await mailService.sendAnonymousSignupEmail(newUser.email, newUser.firstName);
+        const mail = await mailService.sendAnonymousSignupEmail(newUser.email, newUser.firstName, generatedPassword);
  
          const data = {
             id: newUser.id,
@@ -223,6 +228,55 @@ exports.checkUserName = async (req, res) => {
             err
           );
         return res.status(response.code).json(response);
+    }
+}
+
+exports.forgotPassword = async (req, res) => {
+    try {
+       
+        const {
+            email,
+        } = req.body
+       
+
+        const user = await userService.findUserWithEmail(email);
+
+        if (!user){
+            const response = new Response(
+                false,
+                401,
+                "User does not exist",
+              );
+           return res.status(response.code).json(response);
+        }
+
+        const userData = user.dataValues;
+        const newToken = await token.generateToken(userData);
+
+
+        const userLink = `${front}/reset?code=${newToken}`;
+        const mail = await mailService.sendPasswordResetMail(userData.firstName, email, userLink);
+
+
+        
+           const response = new Response(
+            true,
+            200,
+            "Email sent to mail",
+            
+          );
+        return res.status(response.code).json(response);
+   
+    }catch (err){
+        console.log(err)
+        // redirect user to token invalid or expired page
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        res.status(response.code).json(response);
     }
 }
 
@@ -503,6 +557,41 @@ exports.resetPassword = async (req,res) => {
             user
           );
         res.status(response.code).json(response);
+
+    } catch (err) {
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        res.status(response.code).json(response);
+    }
+}
+
+exports.resetPassword2 = async (req,res) => {
+    try {
+       
+        const {
+            newPassword,
+            token
+        } = req.body
+
+        const payload = jwt.verify(token,process.env.JWT_SECRET);
+
+        const id = payload.id;
+    
+        const password = await argon2.hash(newPassword); 
+
+        const user = await userService.updateUser(id, {password})
+
+        const response = new Response(
+            true,
+            200,
+            "Password reset successful",
+            user
+          );
+        res.status(response.code).json(response); 
 
     } catch (err) {
         const response = new Response(

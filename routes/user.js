@@ -51,6 +51,11 @@ router.get(
     userController.getProfileData
 );
 
+router.post(
+    '/forgot-password',
+    userController.forgotPassword
+);
+
 router.get(
     '/userdata', 
     userController.getUserData
@@ -79,6 +84,12 @@ router.patch(
     token.verifyToken,
     userController.resetPassword
 )
+
+router.patch(
+    '/reset-password',
+    userController.resetPassword2
+)
+
 
 router.patch(
     '/image', 

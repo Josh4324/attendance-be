@@ -12,4 +12,11 @@ module.exports = class EmailService {
     async sendAnonymousSignupEmail(email, link, name){
         return EmailNotifications.anonymousSignupEmail(email,link,name);
     } 
+
+
+    async sendPasswordResetMail(firstName, email, link){
+        return EmailNotifications.sendPasswordResetMail(firstName, email, link);
+    } 
+
+
 }

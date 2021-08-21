@@ -10,20 +10,19 @@ class EmailNotifications {
      * @param {string} resetToken Reset Token
      * @returns {function} returns a function
      */
-    static async sendPasswordResetMail(req, user, resetToken) {
-      const dbMessage = await EmailNotification.findOne({ where: { type: 'resetPassword' }});
-      const { message: resetMessage, image } = dbMessage;
+    static async sendPasswordResetMail(firstName, email, link) {
       const subject = 'Password Recovery';
+      const image = "";
       const emailBody = `
-        <h3 class="username">Hello ${user.firstName},</h3>
+        <h3 class="username">Hello ${firstName},</h3>
         <p class="message">
-        ${resetMessage}
+          Click the link below to reset your password
         </p>
-        <a class="btn" href="http://${req.headers.host}/${resetToken}">
+        <a class="btn" href=${link}>
           Reset password
         </a>`;
       const content = template(subject, emailBody, image);
-      mailer.sendMail(user.email, subject, content);
+      mailer.sendMail(email, subject, content);
     }
   
     /**
@@ -200,7 +199,7 @@ class EmailNotifications {
       mailer.sendMail(email, title, message);
     }
 
-    static async anonymousSignupEmail(email,name) {
+    static async anonymousSignupEmail(email,name,password) {
       //const dbMessage = await EmailNotification.findOne({ where: { type: 'signup' }});
       //const { message: signupMessage, image } = dbMessage;
       const image = "";
@@ -237,7 +236,7 @@ class EmailNotifications {
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                     <tr>
-                                      <td><h3 align="center" class="center black">password1</h3></td>
+                                      <td><h3 align="center" class="center black">${password}</h3></td>
                                     </tr>
                                   </tbody>
                                 </table>
