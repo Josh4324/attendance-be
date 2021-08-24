@@ -20,8 +20,7 @@ exports.initiatePayout = async (req, res) => {
     req.body.currency = "NGN";
     req.body.debit_currency = "NGN";
 
-    axios.defaults.headers.common["Authorization"] =
-      "FLWSECK-9d308326f6ed67b304ae825b0fa76356-X";
+    axios.defaults.headers.common["Authorization"] = process.env.FLUTTER_KEY;
     const data = axios({
       method: "post",
       url: "https://api.flutterwave.com/v3/transfers",
