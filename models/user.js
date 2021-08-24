@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       websiteUrl: DataTypes.STRING,
       picture: DataTypes.STRING,
       about: DataTypes.STRING,
+      amount: DataTypes.INTEGER,
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
       userName: DataTypes.STRING,
@@ -36,11 +37,11 @@ module.exports = (sequelize, DataTypes) => {
       youtubeLink: DataTypes.STRING,
       verified: DataTypes.BOOLEAN,
       token: DataTypes.STRING,
-      showComplete: DataTypes.BOOLEAN,
+      showComplete: DataTypes.BOOLEAN
     },
     {
       sequelize,
-      modelName: "User",
+      modelName: "User"
     }
   );
   return User;

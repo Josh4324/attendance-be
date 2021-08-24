@@ -13,6 +13,7 @@
   "dependencies": {
     "argon": "^2.0.21",
     "argon2": "^0.27.2",
+    "axios": "^0.21.1",
     "chalk": "^4.1.1",
     "cloudinary": "^1.25.1",
     "cookie-session": "^1.4.0",
