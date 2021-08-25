@@ -8,8 +8,8 @@ const { JWT_SECRET } = process.env;
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 const generatePassword = require("../helpers/random");
-const front = "http://localhost:3000/#";
-//const front = "http://staging.trendupp.com";
+//const front = "http://localhost:3000/#";
+const front = "http://staging.trendupp.com";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
