@@ -527,10 +527,9 @@ exports.getSupportedCreators = async (req, res) => {
     });
     idList = [...new Set(idList)];
 
-    const posts = await userService.findAllUserwithOneOrMultipleUserId(idList);
-    console.log(posts);
+    const users = await userService.findAllUserwithOneOrMultipleUserId(idList);
 
-    const response = new Response(true, 200, "Success", posts);
+    const response = new Response(true, 200, "Success", users);
     res.status(response.code).json(response);
   } catch (err) {
     console.log(err);
