@@ -49,7 +49,7 @@ module.exports = class UserService {
       }
     });
   }
-
+  
   async updateUserWithEmail(email, payload) {
     return await User.update(payload, {
       where: {
