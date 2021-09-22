@@ -166,6 +166,63 @@ exports.logIn = async (req, res) => {
   }
 };
 
+exports.adminLogIn = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await userService.findUserWithEmail(email);
+
+    if (!user) {
+      const response = new Response(false, 401, "Incorrect email or password");
+      return res.status(response.code).json(response);
+    }
+
+    if (user.role !== "admin") {
+      const response = new Response(false, 401, "You are not an admin");
+      return res.status(response.code).json(response);
+    }
+
+    const userData = user.dataValues;
+    const userPassword = userData.password;
+    const checkPassword = await argon2.verify(userPassword, password);
+
+    if (!user || !checkPassword) {
+      const response = new Response(false, 401, "Incorrect email or password");
+      return res.status(response.code).json(response);
+    }
+
+    const payload = {
+      id: userData.id,
+      role: userData.role
+    };
+
+    const newToken = await token.generateToken(payload);
+
+    const data = {
+      id: userData.id,
+      token: newToken,
+      userType: userData.userType,
+      onboardingStep: userData.onboardingStep
+    };
+    const response = new Response(
+      true,
+      200,
+      "User logged in Successfully",
+      data
+    );
+    return res.status(response.code).json(response);
+  } catch (err) {
+    console.log(err);
+    const response = new Response(
+      false,
+      500,
+      "An error ocurred, please try again",
+      err
+    );
+    return res.status(response.code).json(response);
+  }
+};
+
 exports.checkUserName = async (req, res) => {
   try {
     const { username } = req.body;

@@ -25,6 +25,13 @@ router.post(
   userController.logIn
 );
 
+router.post(
+  "/login/admin",
+  validation.loginValidationRules(),
+  validation.validate,
+  userController.adminLogIn
+);
+
 router.post("/verify", userController.verifyEmail);
 
 router.post("/resend-code", userController.resendCode);
