@@ -27,6 +27,10 @@ module.exports = class UserService {
     });
   }
 
+  async findUsers() {
+    return await User.findAll();
+  }
+
   async findAllUserwithOneOrMultipleUserId(list) {
     return await User.findAll({
       where: {

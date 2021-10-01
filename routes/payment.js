@@ -19,7 +19,10 @@ router.patch(
     paymentController.verifyPayment
 );
 
-
+router.get(
+    '/all',
+    paymentController.getAllPayment
+)
 
 
 

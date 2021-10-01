@@ -66,3 +66,18 @@ exports.getPayoutHistory = async (req, res) => {
     res.status(response.code).json(response);
   }
 };
+
+exports.getAllPayout = async (req, res) => {
+  try {
+   
+    const payout = await payoutService.getAllPayout();
+
+    const response = new Response(true, 200, "Success", payout);
+    res.status(response.code).json(response);
+  } catch (err) {
+    console.log(err);
+    const response = new Response(false, 500, "An error occurred", err);
+    res.status(response.code).json(response);
+  }
+};
+

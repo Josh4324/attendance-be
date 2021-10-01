@@ -49,6 +49,37 @@ exports.getStatistic = async (req, res) => {
     }
 }
 
+exports.getAllSupporters = async (req, res) => {
+    try {
+        
+        const uniqueSupporters = await paymentService.getAllUniqueSupporters();
+
+        let data = {
+    
+            supporters: uniqueSupporters
+        }
+
+       const response = new Response(
+            true,
+            200,
+            "Success",
+            data
+          );
+        res.status(response.code).json(response);
+        
+    }catch(err){
+        console.log(err);
+        const response = new Response(
+            false,
+            500,
+            "Server Error",
+            err
+          );
+        res.status(response.code).json(response);
+    }
+}
+
+
 exports.getHistory = async (req, res) => {
     try {
         

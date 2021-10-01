@@ -101,6 +101,20 @@ exports.getAllPosts = async (req, res) => {
   }
 };
 
+exports.getAllUsersPosts = async (req, res) => {
+  try {
+
+    const posts = await postService.findAllPost();
+
+    const response = new Response(true, 200, "Success", posts);
+    res.status(response.code).json(response);
+  } catch (err) {
+    console.log(err);
+    const response = new Response(false, 500, "Server Error", err);
+    res.status(response.code).json(response);
+  }
+};
+
 exports.getFanPosts = async (req, res) => {
   try {
     const { email } = req.query;

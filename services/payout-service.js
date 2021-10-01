@@ -12,4 +12,15 @@ module.exports = class PayoutService {
       order: [["createdAt", "DESC"]]
     });
   }
+
+  async getAllPayout() {
+    return await Payout.findAll({
+      include: [
+        {
+            model: User,
+            as: 'user', 
+        },
+    ],
+    });
+  }
 };

@@ -7,6 +7,10 @@ module.exports = class UserService {
         return await Post.findOne({where : {id : postId}});
     }
 
+    async findAllPost(){
+        return await Post.findAll();
+    }
+
     async findAllPostwithUserId(userId){
         return await Post.findAll({
             where : {userId},

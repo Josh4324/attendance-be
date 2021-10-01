@@ -8,6 +8,7 @@ const auth = require("../middlewares/authorization");
 const token = new Token();
 
 router.post("/", token.verifyToken, payoutController.initiatePayout);
+router.get("/", token.verifyToken, payoutController.getAllPayout);
 router.get("/history", token.verifyToken, payoutController.getPayoutHistory);
 
 module.exports = router;

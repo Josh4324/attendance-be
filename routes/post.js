@@ -24,6 +24,8 @@ router.post(
 
 router.get("/", postController.getAllPosts);
 
+router.get("/all-users", postController.getAllUsersPosts);
+
 router.get("/all", token.verifyToken, postController.getPosts);
 
 router.get("/fanpost", postController.getFanPosts);

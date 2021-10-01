@@ -6,6 +6,17 @@ module.exports = class PaymentService {
     return await Payment.create(payment);
   }
 
+  async getAllPayment() {
+    return await Payment.findAll({
+      include: [
+        {
+            model: User,
+            as: 'user', 
+        },
+    ],
+    });
+  }
+
   async getPayment(reference) {
     return await Payment.findOne({
       where: {
@@ -24,6 +35,21 @@ module.exports = class PaymentService {
   async getUniqueSupporters(creatorId) {
     const supporters = await Payment.findAll({
       where: { creatorId, status: "approved" }
+    });
+    let unique = [];
+    let uniqueSupporters = [];
+    supporters.map((item) => {
+      if (unique.indexOf(item.email) === -1) {
+        unique.push(item.email);
+        uniqueSupporters.push(item);
+      }
+    });
+    return uniqueSupporters;
+  }
+
+  async getAllUniqueSupporters() {
+    const supporters = await Payment.findAll({
+      where: { status: "approved" }
     });
     let unique = [];
     let uniqueSupporters = [];

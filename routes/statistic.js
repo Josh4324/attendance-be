@@ -14,6 +14,12 @@ router.get(
 );
 
 router.get(
+    '/supporters',
+    token.verifyToken,
+    statisticController.getAllSupporters
+);
+
+router.get(
     '/history',
     token.verifyToken,
     statisticController.getHistory

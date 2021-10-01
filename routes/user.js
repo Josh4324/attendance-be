@@ -46,6 +46,8 @@ router.get("/userdata", userController.getUserData);
 
 router.get("/creators", token.verifyToken, userController.getCreators);
 
+router.get("/all", userController.getUsers);
+
 router.get(
   "/support-creators",
   token.verifyToken,

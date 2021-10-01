@@ -55,3 +55,27 @@ exports.verifyPayment = async (req, res) => {
     return res.status(response.code).json(response);
   }
 };
+
+exports.getAllPayment = async (req, res) => {
+  try {
+  
+    const payment = await paymentService.getAllPayment();
+    let amount = 0;
+    payment.map((item) => {
+        amount = Number(item.amount) + amount;
+    })
+
+    let data = {
+      payment,
+      amount
+    };
+
+    const response = new Response(true, 200, "Payment detail updated", data);
+    return res.status(response.code).json(response);
+  } catch (err) {
+    console.log(err);
+    const response = new Response(false, 500, "Server Error", err);
+    return res.status(response.code).json(response);
+  }
+};
+
