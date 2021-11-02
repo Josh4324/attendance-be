@@ -16,6 +16,21 @@ router.post(
   userController.signUp
 );
 
+router.post(
+  "/social-signup",
+  userController.socialSignUp
+);
+
+router.post(
+  "/social-check",
+  userController.socialCheck
+);
+
+router.post(
+  "/social-login",
+  userController.socialLogin
+);
+
 router.post("/anon-signup", userController.anonymousSignUp);
 
 router.post(

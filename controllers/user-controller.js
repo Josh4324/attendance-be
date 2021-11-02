@@ -74,6 +74,87 @@ exports.signUp = async (req, res) => {
   }
 };
 
+exports.socialSignUp = async (req, res) => {
+  try {
+    const newUser = await userService.createUser(req.body);
+    const userData = newUser.dataValues;
+    const payload = {
+      id: userData.id,
+      firstName : userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email
+    }
+    const newToken = await token.generateToken(payload);
+    const data = {
+      token: newToken,
+      onboardingStep: userData.onboardingStep
+    };
+    const response = new Response(true, 201, "User created successfully", data);
+    return res.status(response.code).json(response);
+  }catch(err){
+    console.log(err);
+    const response = new Response(
+      false,
+      500,
+      "An error ocurred, please try again",
+      err
+    );
+    return res.status(response.code).json(response);
+  }
+}
+
+exports.socialLogin = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await userService.findUserWithEmail(email);
+    const userData = user.dataValues;
+    const payload = {
+      id: userData.id,
+      role: userData.role
+    };
+    const newToken = await token.generateToken(payload);
+    const data = {
+      id: userData.id,
+      token: newToken,
+      userType: userData.userType,
+      onboardingStep: userData.onboardingStep
+    };
+    const response = new Response(
+      true,
+      200,
+      "User logged in Successfully",
+      data
+    );
+    return res.status(response.code).json(response);
+
+  }catch(err){
+
+  }
+}
+
+exports.socialCheck = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await userService.findUserWithEmail(email);
+    if (user) {
+      const response = new Response(true, 200, "This user already exists", {});
+      return res.status(response.code).json(response);
+    }else{
+      const response = new Response(true, 200, "This user does not exists", {email});
+      return res.status(response.code).json(response);
+    }
+  }catch(err){
+    const response = new Response(
+      false,
+      500,
+      "An error ocurred, please try again",
+      err
+    );
+    return res.status(response.code).json(response);
+  }
+}
+
+
 exports.anonymousSignUp = async (req, res) => {
   try {
     const { email } = req.body;
@@ -119,13 +200,13 @@ exports.logIn = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await userService.findUserWithEmail(email);
+    const userData = user.dataValues;
 
     if (!user) {
       const response = new Response(false, 401, "Incorrect email or password");
       return res.status(response.code).json(response);
     }
 
-    const userData = user.dataValues;
     const userPassword = userData.password;
     const checkPassword = await argon2.verify(userPassword, password);
 
