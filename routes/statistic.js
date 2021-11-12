@@ -14,6 +14,11 @@ router.get(
 );
 
 router.get(
+    '/:username',
+    statisticController.getSupporters
+);
+
+router.get(
     '/supporters',
     token.verifyToken,
     statisticController.getAllSupporters
