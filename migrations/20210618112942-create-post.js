@@ -17,6 +17,9 @@ module.exports = {
       image: {
         type: Sequelize.STRING
       },
+      youtube: {
+        type: Sequelize.STRING
+      },
       userId: {
         type: Sequelize.INTEGER
       },

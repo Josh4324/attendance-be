@@ -17,7 +17,7 @@ const paymentService = new PaymentService();
 
 exports.createPost = async (req, res) => {
   try {
-    const { title, message, postType } = req.body;
+    const { title, message, postType, youtube } = req.body;
     const { id } = req.payload;
 
     cloudinary.uploader.upload(req.file.path, async (error, result) => {
@@ -50,13 +50,15 @@ exports.createPost = async (req, res) => {
 
 exports.createPostWithoutImage = async (req, res) => {
   try {
-    const { title, message, postType } = req.body;
+    console.log(req.body);
+    const { title, message, postType, youtube } = req.body;
     const { id } = req.payload;
 
     const data = {
       title,
       message,
       postType,
+      youtube,
       userId: id,
     };
     const post = await postService.createPost(data);

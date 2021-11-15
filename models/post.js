@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     message: DataTypes.STRING,
     image: DataTypes.STRING,
+    youtube: DataTypes.STRING,
     userId: {type: DataTypes.INTEGER,primaryKey: true,},
     postType: DataTypes.STRING
   }, {
