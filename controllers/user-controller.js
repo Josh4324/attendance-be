@@ -14,7 +14,7 @@ const front = "http://staging.trendupp.com/#";
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,
-  api_secret: process.env.API_SECRET
+  api_secret: process.env.API_SECRET,
 });
 
 const userService = new UserService();
@@ -34,7 +34,7 @@ exports.signUp = async (req, res) => {
     const code = uuidv4().slice(0, 6);
 
     const payload = {
-      code
+      code,
     };
 
     const newToken = await token.generateToken(payload, 600);
@@ -58,7 +58,7 @@ exports.signUp = async (req, res) => {
 
     const data = {
       id: newUser.id,
-      role: "user"
+      role: "user",
     };
     const response = new Response(true, 201, "User created successfully", data);
     return res.status(response.code).json(response);
@@ -80,18 +80,18 @@ exports.socialSignUp = async (req, res) => {
     const userData = newUser.dataValues;
     const payload = {
       id: userData.id,
-      firstName : userData.firstName,
+      firstName: userData.firstName,
       lastName: userData.lastName,
-      email: userData.email
-    }
+      email: userData.email,
+    };
     const newToken = await token.generateToken(payload);
     const data = {
       token: newToken,
-      onboardingStep: userData.onboardingStep
+      onboardingStep: userData.onboardingStep,
     };
     const response = new Response(true, 201, "User created successfully", data);
     return res.status(response.code).json(response);
-  }catch(err){
+  } catch (err) {
     console.log(err);
     const response = new Response(
       false,
@@ -101,7 +101,7 @@ exports.socialSignUp = async (req, res) => {
     );
     return res.status(response.code).json(response);
   }
-}
+};
 
 exports.socialLogin = async (req, res) => {
   try {
@@ -110,14 +110,14 @@ exports.socialLogin = async (req, res) => {
     const userData = user.dataValues;
     const payload = {
       id: userData.id,
-      role: userData.role
+      role: userData.role,
     };
     const newToken = await token.generateToken(payload);
     const data = {
       id: userData.id,
       token: newToken,
       userType: userData.userType,
-      onboardingStep: userData.onboardingStep
+      onboardingStep: userData.onboardingStep,
     };
     const response = new Response(
       true,
@@ -126,11 +126,8 @@ exports.socialLogin = async (req, res) => {
       data
     );
     return res.status(response.code).json(response);
-
-  }catch(err){
-
-  }
-}
+  } catch (err) {}
+};
 
 exports.socialCheck = async (req, res) => {
   try {
@@ -139,11 +136,13 @@ exports.socialCheck = async (req, res) => {
     if (user) {
       const response = new Response(true, 200, "This user already exists", {});
       return res.status(response.code).json(response);
-    }else{
-      const response = new Response(true, 200, "This user does not exists", {email});
+    } else {
+      const response = new Response(true, 200, "This user does not exists", {
+        email,
+      });
       return res.status(response.code).json(response);
     }
-  }catch(err){
+  } catch (err) {
     const response = new Response(
       false,
       500,
@@ -152,8 +151,7 @@ exports.socialCheck = async (req, res) => {
     );
     return res.status(response.code).json(response);
   }
-}
-
+};
 
 exports.anonymousSignUp = async (req, res) => {
   try {
@@ -179,7 +177,7 @@ exports.anonymousSignUp = async (req, res) => {
 
     const data = {
       id: newUser.id,
-      role: "user"
+      role: "user",
     };
     const response = new Response(true, 201, "User created successfully", data);
     return res.status(response.code).json(response);
@@ -217,7 +215,7 @@ exports.logIn = async (req, res) => {
 
     const payload = {
       id: userData.id,
-      role: userData.role
+      role: userData.role,
     };
 
     const newToken = await token.generateToken(payload);
@@ -226,7 +224,8 @@ exports.logIn = async (req, res) => {
       id: userData.id,
       token: newToken,
       userType: userData.userType,
-      onboardingStep: userData.onboardingStep
+      onboardingStep: userData.onboardingStep,
+      verified: userData.verified,
     };
     const response = new Response(
       true,
@@ -274,7 +273,7 @@ exports.adminLogIn = async (req, res) => {
 
     const payload = {
       id: userData.id,
-      role: userData.role
+      role: userData.role,
     };
 
     const newToken = await token.generateToken(payload);
@@ -283,7 +282,7 @@ exports.adminLogIn = async (req, res) => {
       id: userData.id,
       token: newToken,
       userType: userData.userType,
-      onboardingStep: userData.onboardingStep
+      onboardingStep: userData.onboardingStep,
     };
     const response = new Response(
       true,
@@ -390,13 +389,13 @@ exports.verifyEmail = async (req, res) => {
     const payload = jwt.verify(token1, JWT_SECRET);
 
     const newPayload = {
-      id
+      id,
     };
 
     const newToken = await token.generateToken(newPayload);
 
     const updatePayload = {
-      verified: true
+      verified: true,
     };
 
     if (payload.code !== code) {
@@ -410,7 +409,7 @@ exports.verifyEmail = async (req, res) => {
 
     const data = {
       token: newToken,
-      id
+      id,
     };
 
     const updatedUser = await userService.updateUser(id, updatePayload);
@@ -453,12 +452,12 @@ exports.resendCode = async (req, res) => {
     const code = uuidv4().slice(0, 6);
 
     const payload = {
-      code
+      code,
     };
 
     const newToken = await token.generateToken(payload, 600);
     const updatePayload = {
-      token: newToken
+      token: newToken,
     };
     const updatedUser = await userService.updateUser(id, updatePayload);
 
