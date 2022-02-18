@@ -198,12 +198,13 @@ exports.logIn = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await userService.findUserWithEmail(email);
-    const userData = user.dataValues;
 
     if (!user) {
       const response = new Response(false, 401, "Incorrect email or password");
       return res.status(response.code).json(response);
     }
+
+    const userData = user.dataValues;
 
     const userPassword = userData.password;
     const checkPassword = await argon2.verify(userPassword, password);
