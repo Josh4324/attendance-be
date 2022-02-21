@@ -10,32 +10,33 @@ module.exports = class PaymentService {
     return await Payment.findAll({
       include: [
         {
-            model: User,
-            as: 'user', 
+          model: User,
+          as: "user",
         },
-    ],
+      ],
     });
   }
 
   async getPayment(reference) {
     return await Payment.findOne({
       where: {
-        reference
-      }
+        reference,
+      },
     });
   }
 
   async getSupporters(creatorId) {
     return await Payment.findAll({
       where: { creatorId, status: "approved" },
-      order: [["createdAt", "DESC"]]
+      order: [["createdAt", "DESC"]],
     });
   }
 
   async getUniqueSupporters(creatorId) {
     const supporters = await Payment.findAll({
-      where: { creatorId, status: "approved" }
+      where: { creatorId, status: "approved" },
     });
+    console.log("sup", supporters);
     let unique = [];
     let uniqueSupporters = [];
     supporters.map((item) => {
@@ -49,7 +50,7 @@ module.exports = class PaymentService {
 
   async getAllUniqueSupporters() {
     const supporters = await Payment.findAll({
-      where: { status: "approved" }
+      where: { status: "approved" },
     });
     let unique = [];
     let uniqueSupporters = [];
@@ -59,12 +60,13 @@ module.exports = class PaymentService {
         uniqueSupporters.push(item);
       }
     });
+
     return uniqueSupporters;
   }
 
   async getSupporterHistory(creatorId, email) {
     return await Payment.findAll({
-      where: { creatorId, status: "approved", email }
+      where: { creatorId, status: "approved", email },
     });
   }
 
@@ -74,17 +76,17 @@ module.exports = class PaymentService {
       include: [
         {
           model: User,
-          as: "user"
-        }
-      ]
+          as: "user",
+        },
+      ],
     });
   }
 
   async verifyPayment(reference, payload) {
     return await Payment.update(payload, {
       where: {
-        reference
-      }
+        reference,
+      },
     });
   }
 
