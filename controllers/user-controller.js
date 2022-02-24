@@ -698,3 +698,40 @@ exports.getSupportedCreators = async (req, res) => {
     res.status(response.code).json(response);
   }
 };
+
+exports.checkIsFan = async (req, res) => {
+  try {
+    const { fanEmail, creatorEmail } = req.body;
+    let status = false;
+    const creators = await paymentService.getApprovedPayment(fanEmail);
+    let idList = [null];
+    creators.map((item) => {
+      idList.push(Number(item.creatorId));
+    });
+    idList = [...new Set(idList)];
+
+    const users = await userService.findAllUserwithOneOrMultipleUserId(idList);
+
+    users.map((item) => {
+      if (item.email === creatorEmail) {
+        status = true;
+      }
+    });
+
+    const data = {
+      status,
+    };
+
+    const response = new Response(true, 200, "Success", data);
+    res.status(response.code).json(response);
+  } catch (err) {
+    console.log(err);
+    const response = new Response(
+      false,
+      500,
+      "An error ocurred, please try again",
+      err
+    );
+    res.status(response.code).json(response);
+  }
+};

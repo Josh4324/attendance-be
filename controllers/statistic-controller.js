@@ -64,7 +64,6 @@ exports.getSupporters = async (req, res) => {
 
 exports.getAllSupporters = async (req, res) => {
   try {
-    console.log("fffffffffff");
     const uniqueSupporters = await paymentService.getAllUniqueSupporters();
 
     let data = {

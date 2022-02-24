@@ -16,20 +16,11 @@ router.post(
   userController.signUp
 );
 
-router.post(
-  "/social-signup",
-  userController.socialSignUp
-);
+router.post("/social-signup", userController.socialSignUp);
 
-router.post(
-  "/social-check",
-  userController.socialCheck
-);
+router.post("/social-check", userController.socialCheck);
 
-router.post(
-  "/social-login",
-  userController.socialLogin
-);
+router.post("/social-login", userController.socialLogin);
 
 router.post("/anon-signup", userController.anonymousSignUp);
 
@@ -83,5 +74,7 @@ router.patch(
   upload.single("picture"),
   userController.imageUpload
 );
+
+router.post("/check-is-fan", userController.checkIsFan);
 
 module.exports = router;
