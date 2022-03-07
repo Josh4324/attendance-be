@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 const generatePassword = require("../helpers/random");
 //const front = "http://localhost:3000/#";
-const front = "https://trendupp.com/";
+const front = "https://trendupp.com";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
