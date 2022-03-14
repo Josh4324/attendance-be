@@ -6,45 +6,42 @@ const rateLimit = require("express-rate-limit");
 const cors = require("cors");
 const morgan = require("morgan");
 
+module.exports = function CommonMiddleware(app) {
+  app.use(
+    express.json({
+      limit: "10mb",
+    })
+  );
 
-module.exports = function CommonMiddleware(app){
+  app.use(
+    express.urlencoded({
+      limit: "10mb",
+      extended: false,
+      parameterLimit: 10000,
+    })
+  );
 
-    app.use(
-        express.json({
-          limit: "10mb",
-        })
-    );
+  //HTTP headers
+  app.use(helmet());
 
-    app.use(
-        express.urlencoded({
-            limit: "10mb",
-            extended: false,
-            parameterLimit: 10000,
-            })
-    );
+  //Enable cors
+  app.use(cors());
 
-
-    //HTTP headers
-    app.use(helmet());
-
-    //Enable cors
-    app.use(cors());
-
-    //Against brute attack
-    const rateLimiter = rateLimit({
+  //Against brute attack
+  const rateLimiter = rateLimit({
     max: 200,
     windowMs: 60 * 60 * 1000,
     message: "Too many request from this IP, please try again in an hour!",
-    });
+  });
 
-    //rate liniter
-    app.use("/api", rateLimiter);
+  //rate liniter
+  //app.use("/api", rateLimiter);
 
-    //xss attack - Data Sanitization
-    app.use(xss());
+  //xss attack - Data Sanitization
+  app.use(xss());
 
-    //HTTP parament pollution
-    app.use(hpp());
+  //HTTP parament pollution
+  app.use(hpp());
 
-    app.use(morgan("common"));
-}
+  app.use(morgan("common"));
+};
