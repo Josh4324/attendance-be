@@ -1,7 +1,6 @@
 const express = require("express");
 const Middleware = require("./middlewares/common");
-const GoogleAuth = require("./middlewares/googleAuth");
-const FacebookAuth = require("./middlewares/facebookAuth");
+
 const sequelize = require("sequelize");
 require("dotenv").config();
 const chalk = require("chalk");
@@ -9,14 +8,9 @@ const Response = require("./helpers/Response");
 const DB = require("./config/config");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
-require("./social-auth/google-passport");
-require("./social-auth/facebook-passport");
 
 const userRoutes = require("./routes/user.js");
-const postRoutes = require("./routes/post.js");
-const paymentRoutes = require("./routes/payment");
-const statisticRoutes = require("./routes/statistic");
-const payoutRoutes = require("./routes/payout");
+const attendanceRoutes = require("./routes/attendance.js");
 
 const port = process.env.PORT || 3000;
 
@@ -27,7 +21,7 @@ Middleware(app);
 app.use(
   cookieSession({
     name: "session-name",
-    keys: ["key1", "key2"]
+    keys: ["key1", "key2"],
   })
 );
 
@@ -35,15 +29,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-GoogleAuth(app, passport);
-FacebookAuth(app, passport);
-
 //REGISTER ROUTES HERE
 app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/post", postRoutes);
-app.use("/api/v1/payment", paymentRoutes);
-app.use("/api/v1/statistic", statisticRoutes);
-app.use("/api/v1/payout", payoutRoutes);
+app.use("/api/v1/attendance", attendanceRoutes);
 
 app.get("/api", (req, res) => {
   const response = new Response(

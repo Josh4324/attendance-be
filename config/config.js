@@ -1,10 +1,10 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 const path = require("path");
 
-if (!process.env.HOST){
+if (!process.env.HOST) {
   dotenv.config({
-    path: path.join(__dirname, "..", ".env")
-  })
+    path: path.join(__dirname, "..", ".env"),
+  });
 }
 
 module.exports = {
@@ -13,5 +13,5 @@ module.exports = {
   password: process.env.PASS,
   port: process.env.DB_PORT,
   database: process.env.DB,
-  dialect: "postgres"
-}
+  dialect: "postgres",
+};

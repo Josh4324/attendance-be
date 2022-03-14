@@ -13,35 +13,17 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      brandName: DataTypes.STRING,
-      websiteUrl: DataTypes.STRING,
-      picture: DataTypes.STRING,
-      about: DataTypes.STRING,
-      amount: DataTypes.INTEGER,
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      userName: DataTypes.STRING,
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
-      phoneNumber: DataTypes.STRING,
-      creating: DataTypes.STRING,
+      first_name: DataTypes.STRING,
+      last_name: DataTypes.STRING,
+      staff_id: { type: DataTypes.STRING, primaryKey: true },
       role: DataTypes.STRING,
-      userType: DataTypes.STRING,
-      onboardingStep: DataTypes.STRING,
-      bankName: DataTypes.STRING,
-      accName: DataTypes.STRING,
-      accNumber: DataTypes.STRING,
-      facebookLink: DataTypes.STRING,
-      twitterLink: DataTypes.STRING,
-      instagramLink: DataTypes.STRING,
-      youtubeLink: DataTypes.STRING,
-      verified: DataTypes.BOOLEAN,
-      token: DataTypes.STRING,
-      showComplete: DataTypes.BOOLEAN
+      position: DataTypes.STRING,
+      start_date: DataTypes.DATE,
+      device_id: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: "User"
+      modelName: "User",
     }
   );
   return User;
