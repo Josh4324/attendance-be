@@ -11,6 +11,7 @@ const cookieSession = require("cookie-session");
 
 const userRoutes = require("./routes/user.js");
 const attendanceRoutes = require("./routes/attendance.js");
+const emailRoutes = require("./routes/email");
 
 const port = process.env.PORT || 3000;
 
@@ -32,6 +33,7 @@ app.use(passport.session());
 //REGISTER ROUTES HERE
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/attendance", attendanceRoutes);
+app.use("/api/v1/email", emailRoutes);
 
 app.get("/api", (req, res) => {
   const response = new Response(
