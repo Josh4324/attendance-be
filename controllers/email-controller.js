@@ -7,6 +7,15 @@ const emailService = new EmailService();
 
 exports.createEmail = async (req, res) => {
   try {
+    const findEmail = await emailService.findEmail(req.body.email);
+    if (findEmail) {
+      const response = new Response(
+        false,
+        500,
+        "Email already added to waitlist"
+      );
+      return res.status(response.code).json(response);
+    }
     const email = await emailService.createEmail(req.body);
 
     const response = new Response(true, 201, "Email Created", email);

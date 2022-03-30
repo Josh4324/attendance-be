@@ -7,6 +7,10 @@ module.exports = class UserService {
     return await Email.findAll();
   }
 
+  async findEmail(email) {
+    return await Email.findOne({ where: { email } });
+  }
+
   async createEmail(user) {
     return await Email.create(user);
   }
