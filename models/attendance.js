@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       date: DataTypes.DATE,
       attended: DataTypes.STRING,
       time: DataTypes.TIME,
+      clock_out: DataTypes.DATE,
       location: DataTypes.STRING,
       staff_id: { type: DataTypes.STRING, primaryKey: true },
     },

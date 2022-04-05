@@ -43,6 +43,34 @@ module.exports = class UserService {
     });
   }
 
+  async findUserAttendance(staff_id) {
+    return await Attendance.findAll({
+      include: [
+        {
+          model: User,
+          as: "user",
+        },
+      ],
+      where: {
+        staff_id,
+      },
+    });
+  }
+
+  async checkToday(staff_id) {
+    const START = new Date();
+    START.setHours(0, 0, 0, 0);
+    const NOW = new Date();
+    return await Attendance.findOne({
+      where: {
+        staff_id,
+        createdAt: {
+          [Op.between]: [START.toISOString(), NOW.toISOString()],
+        },
+      },
+    });
+  }
+
   async createAttendance(user) {
     return await Attendance.create(user);
   }

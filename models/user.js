@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       last_name: DataTypes.STRING,
       staff_id: { type: DataTypes.STRING, primaryKey: true },
       role: DataTypes.STRING,
+      email: DataTypes.STRING,
+      password: DataTypes.STRING,
       position: DataTypes.STRING,
       start_date: DataTypes.DATE,
       device_id: DataTypes.STRING,

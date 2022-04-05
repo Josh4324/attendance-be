@@ -8,6 +8,10 @@ router.post("/", attendanceController.createAttendance);
 
 router.patch("/", attendanceController.updateAttendance);
 
+router.patch("/clock-out", attendanceController.cloutOut);
+
 router.get("/all", attendanceController.getTodayAttendance);
+
+router.post("/staff", attendanceController.getUserAttendance);
 
 module.exports = router;
