@@ -12,6 +12,10 @@ router.patch("/clock-out", attendanceController.cloutOut);
 
 router.get("/all", attendanceController.getTodayAttendance);
 
+router.get("/price", attendanceController.getPrice);
+
+router.get("/users", attendanceController.getUsers);
+
 router.post("/staff", attendanceController.getUserAttendance);
 
 module.exports = router;

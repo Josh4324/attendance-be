@@ -75,7 +75,7 @@ exports.logIn = async (req, res) => {
 exports.adminSignUp = async (req, res) => {
   try {
     console.log(req.body);
-    const { email } = req.body;
+    
     const user = await userService.findUserWithEmail(email);
     if (user) {
       const response = new Response(true, 409, "This user already exists");
