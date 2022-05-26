@@ -21,6 +21,9 @@ exports.signUp = async (req, res) => {
       return res.status(response.code).json(response);
     }
 
+    const password = await argon2.hash(req.body.password);
+    req.body.password = password;
+
     const newUser = await userService.createUser(req.body);
 
     const response = new Response(
@@ -75,7 +78,7 @@ exports.logIn = async (req, res) => {
 exports.adminSignUp = async (req, res) => {
   try {
     console.log(req.body);
-    
+
     const user = await userService.findUserWithEmail(email);
     if (user) {
       const response = new Response(true, 409, "This user already exists");
@@ -141,5 +144,45 @@ exports.adminlogIn = async (req, res) => {
       err
     );
     return res.status(response.code).json(response);
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await userService.updateUserWithEmail(email, req.body);
+
+    const response = new Response(
+      true,
+      200,
+      "User profile updated successfully",
+      user
+    );
+    res.status(response.code).json(response);
+  } catch (err) {
+    console.log(err);
+    const response = new Response(
+      false,
+      500,
+      "An error ocurred, please try again",
+      err
+    );
+    res.status(response.code).json(response);
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const email = req.body.email;
+
+    const user = await userService.deleteUser(email);
+
+    const response = new Response(true, 200, "Success", user);
+    res.status(response.code).json(response);
+  } catch (err) {
+    console.log(err);
+    const response = new Response(false, 500, "Server Error", err);
+    res.status(response.code).json(response);
   }
 };

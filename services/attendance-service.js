@@ -1,6 +1,7 @@
 const Attendance = require("../models/index")["Attendance"];
 const User = require("../models/index")["User"];
 const { Op } = require("sequelize");
+const moment = require("moment");
 
 module.exports = class UserService {
   async findUser(userId) {
@@ -28,6 +29,25 @@ module.exports = class UserService {
     const START = new Date();
     START.setHours(0, 0, 0, 0);
     const NOW = new Date();
+    return await Attendance.findAll({
+      include: [
+        {
+          model: User,
+          as: "user",
+        },
+      ],
+      where: {
+        createdAt: {
+          [Op.between]: [START.toISOString(), NOW.toISOString()],
+        },
+      },
+    });
+  }
+
+  async findRangeAttendance(start, end) {
+    const START = new Date(start);
+    START.setHours(0, 0, 0, 0);
+    const NOW = new Date(end);
     return await Attendance.findAll({
       include: [
         {

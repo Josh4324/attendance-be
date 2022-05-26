@@ -79,6 +79,51 @@ exports.cloutOut = async (req, res) => {
 
 exports.getTodayAttendance = async (req, res) => {
   try {
+    const attendance = await attendanceService.findDailyAttendance();
+    const allUsers = await userService.findUsers();
+    const data = {
+      allUsers,
+      attendance,
+    };
+    const response = new Response(true, 200, "Success", data);
+    res.status(response.code).json(response);
+  } catch (err) {
+    console.log(err);
+    const response = new Response(
+      false,
+      500,
+      "An error ocurred, please try again",
+      err
+    );
+    res.status(response.code).json(response);
+  }
+};
+
+exports.getRangeAttendance = async (req, res) => {
+  try {
+    const { start, end } = req.body;
+    const attendance = await attendanceService.findRangeAttendance(start, end);
+    const allUsers = await userService.findUsers();
+    const data = {
+      allUsers,
+      attendance,
+    };
+    const response = new Response(true, 200, "Success", data);
+    res.status(response.code).json(response);
+  } catch (err) {
+    console.log(err);
+    const response = new Response(
+      false,
+      500,
+      "An error ocurred, please try again",
+      err
+    );
+    res.status(response.code).json(response);
+  }
+};
+
+exports.getWeeklyAttendance = async (req, res) => {
+  try {
     console.log(new Date());
     const attendance = await attendanceService.findDailyAttendance();
     const allUsers = await userService.findUsers();

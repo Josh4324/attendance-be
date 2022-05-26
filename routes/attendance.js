@@ -12,6 +12,8 @@ router.patch("/clock-out", attendanceController.cloutOut);
 
 router.get("/all", attendanceController.getTodayAttendance);
 
+router.post("/range", attendanceController.getRangeAttendance);
+
 router.get("/price", attendanceController.getPrice);
 
 router.get("/users", attendanceController.getUsers);

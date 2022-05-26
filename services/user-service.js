@@ -46,4 +46,12 @@ module.exports = class UserService {
       },
     });
   }
+
+  async deleteUser(email) {
+    return await User.destroy({
+      where: {
+        email,
+      },
+    });
+  }
 };
