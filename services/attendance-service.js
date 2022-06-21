@@ -65,6 +65,7 @@ module.exports = class UserService {
 
   async findUserAttendance(staff_id) {
     return await Attendance.findAll({
+      order: [["id", "DESC"]],
       include: [
         {
           model: User,
@@ -95,10 +96,10 @@ module.exports = class UserService {
     return await Attendance.create(user);
   }
 
-  async updateAttendanceWithStaffId(staff_id, payload) {
+  async updateAttendanceWithStaffId(id, payload) {
     return await Attendance.update(payload, {
       where: {
-        staff_id,
+        id,
       },
     });
   }

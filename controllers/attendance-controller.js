@@ -10,14 +10,24 @@ const userService = new UserService();
 exports.createAttendance = async (req, res) => {
   try {
     const checkToday = await attendanceService.checkToday(req.body.staff_id);
-
-    console.log(checkToday);
-
+    //console.log(checkToday);
     if (checkToday) {
       const response = new Response(true, 400, "You have clocked in already");
       return res.status(response.code).json(response);
     }
-    const user = await attendanceService.createAttendance(req.body);
+    const userData = await attendanceService.createAttendance(req.body);
+
+    const user = {
+      date: userData.dataValues.date,
+      attended: userData.dataValues.attended,
+      time: userData.dataValues.time,
+      location: userData.dataValues.location,
+      staff_id: userData.dataValues.staff_id,
+      clock_out: userData.dataValues.clock_out,
+      id: userData.dataValues.id,
+      createdAt: userData.dataValues.createdAt,
+      updatedAt: userData.dataValues.updatedAt,
+    };
 
     const response = new Response(true, 201, "Attendance Created", user);
     return res.status(response.code).json(response);
@@ -57,9 +67,11 @@ exports.updateAttendance = async (req, res) => {
 
 exports.cloutOut = async (req, res) => {
   try {
-    const { staff_id } = req.body;
+    const { id } = req.body;
 
-    const user = await attendanceService.updateAttendanceWithStaffId(staff_id, {
+    console.log(new Date());
+
+    const user = await attendanceService.updateAttendanceWithStaffId(id, {
       clock_out: new Date(),
     });
 
@@ -124,7 +136,6 @@ exports.getRangeAttendance = async (req, res) => {
 
 exports.getWeeklyAttendance = async (req, res) => {
   try {
-    console.log(new Date());
     const attendance = await attendanceService.findDailyAttendance();
     const allUsers = await userService.findUsers();
     const data = {
@@ -189,6 +200,7 @@ exports.getUserAttendance = async (req, res) => {
   try {
     const { staff_id } = req.body;
     const attendance = await attendanceService.findUserAttendance(staff_id);
+
     const response = new Response(true, 200, "Success", attendance);
     res.status(response.code).json(response);
   } catch (err) {

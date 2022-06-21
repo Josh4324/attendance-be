@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Attendance.init(
     {
+      id: DataTypes.INTEGER,
       date: DataTypes.DATE,
       attended: DataTypes.STRING,
       time: DataTypes.TIME,
