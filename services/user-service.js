@@ -47,10 +47,18 @@ module.exports = class UserService {
     });
   }
 
-  async deleteUser(email) {
+  async updateUserWithStaffId(staff_id, payload) {
+    return await User.update(payload, {
+      where: {
+        staff_id,
+      },
+    });
+  }
+
+  async deleteUser(staff_id) {
     return await User.destroy({
       where: {
-        email,
+        staff_id,
       },
     });
   }

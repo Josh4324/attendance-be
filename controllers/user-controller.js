@@ -149,9 +149,9 @@ exports.adminlogIn = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   try {
-    const { email } = req.body;
+    const { staff_id } = req.body;
 
-    const user = await userService.updateUserWithEmail(email, req.body);
+    const user = await userService.updateUserWithStaffId(staff_id, req.body);
 
     const response = new Response(
       true,
@@ -174,9 +174,9 @@ exports.updateProfile = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    const email = req.body.email;
+    const staff_id = req.body.staff_id;
 
-    const user = await userService.deleteUser(email);
+    const user = await userService.deleteUser(staff_id);
 
     const response = new Response(true, 200, "Success", user);
     res.status(response.code).json(response);
