@@ -14,6 +14,8 @@ router.post("/admin-login", userController.adminlogIn);
 
 router.patch("/", userController.updateProfile);
 
+router.post("/profile", userController.getProfile);
+
 router.post("/delete", userController.deleteUser);
 
 module.exports = router;

@@ -23,6 +23,10 @@ module.exports = class UserService {
     return await User.findOne({ where: { staff_id } });
   }
 
+  async findUserWithName(first_name) {
+    return await User.findOne({ where: { first_name } });
+  }
+
   async findUsers() {
     return await User.findAll();
   }
