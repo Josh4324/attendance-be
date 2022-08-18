@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
+const fs = require("fs");
+const path = require("path");
+const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.js');
+const env = process.env.NODE_ENV || "development";
+const config = require(__dirname + "/../config/config.js");
 const db = {};
 
 let sequelize = new Sequelize({
@@ -16,31 +16,39 @@ let sequelize = new Sequelize({
   database: config.database,
   dialect: "postgres",
   dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false // <<<<<<< YOU NEED THIS
-    }
+    /* ssl: {
+      native: true,
+      require: false,
+      rejectUnauthorized: false, // <<<<<<< YOU NEED THIS
+    }, */
   },
-})
+});
 
 // check database connection
-sequelize.authenticate().then(() => {
-  console.log("success")
-}).catch((err) => {
-  console.log(err)
-})
-
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("success");
   })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+  .catch((err) => {
+    console.log(err);
+  });
+
+fs.readdirSync(__dirname)
+  .filter((file) => {
+    return (
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+    );
+  })
+  .forEach((file) => {
+    const model = require(path.join(__dirname, file))(
+      sequelize,
+      Sequelize.DataTypes
+    );
     db[model.name] = model;
   });
 
-Object.keys(db).forEach(modelName => {
+Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }

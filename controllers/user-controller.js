@@ -3,6 +3,7 @@ const cloudinary = require("cloudinary").v2;
 const argon2 = require("argon2");
 const { Response, Token } = require("../helpers");
 const { v4: uuidv4 } = require("uuid");
+const token = new Token();
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -107,6 +108,38 @@ exports.adminSignUp = async (req, res) => {
   }
 };
 
+exports.reset = async (req, res) => {
+  try {
+    const { id } = req.payload;
+    const { password, confirmPassword } = req.body;
+
+    if (password !== confirmPassword) {
+      const response = new Response(
+        false,
+        401,
+        "Password and confirmPassword to do match"
+      );
+      return res.status(response.code).json(response);
+    }
+
+    const pass = await argon2.hash(password);
+
+    const user = await userService.updateUser(id, { pass });
+
+    const response = new Response(true, 200, "Password reset successful");
+    res.status(response.code).json(response);
+  } catch (err) {
+    console.log(err);
+    const response = new Response(
+      false,
+      500,
+      "An error ocurred, please try again",
+      err
+    );
+    res.status(response.code).json(response);
+  }
+};
+
 exports.adminlogIn = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -128,11 +161,23 @@ exports.adminlogIn = async (req, res) => {
       return res.status(response.code).json(response);
     }
 
+    const payload1 = {
+      id: userData.id,
+      role: userData.role,
+    };
+
+    const Token = await token.generateToken(payload1);
+
+    const data = {
+      token: Token,
+      userData,
+    };
+
     const response = new Response(
       true,
       200,
       "User logged in Successfully",
-      userData
+      data
     );
     return res.status(response.code).json(response);
   } catch (err) {

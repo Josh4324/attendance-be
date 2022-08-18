@@ -3,7 +3,12 @@ const { Op } = require("sequelize");
 
 module.exports = class UserService {
   async findUser(userId) {
-    return await User.findOne({ where: { id: userId } });
+    return await User.findOne({
+      where: { id: userId },
+      attributes: {
+        exclude: ["token"],
+      },
+    });
   }
 
   async findUserWithUserName(username) {
@@ -56,6 +61,12 @@ module.exports = class UserService {
       where: {
         staff_id,
       },
+    });
+  }
+
+  async findUserAndPasswordWithId(id) {
+    return await User.findOne({
+      where: { id },
     });
   }
 

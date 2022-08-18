@@ -13,6 +13,7 @@ const userRoutes = require("./routes/user.js");
 const attendanceRoutes = require("./routes/attendance.js");
 const emailRoutes = require("./routes/email");
 const bookRoutes = require("./routes/book");
+const mailRoutes = require("./routes/mail");
 
 const port = process.env.PORT || 3000;
 
@@ -36,6 +37,7 @@ app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/attendance", attendanceRoutes);
 app.use("/api/v1/email", emailRoutes);
 app.use("/api/v1/book", bookRoutes);
+app.use("/api/v1/mail", mailRoutes);
 
 app.get("/api", (req, res) => {
   const response = new Response(
