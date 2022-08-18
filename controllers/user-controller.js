@@ -124,7 +124,7 @@ exports.reset = async (req, res) => {
 
     const pass = await argon2.hash(password);
 
-    const user = await userService.updateUser(id, { pass });
+    const user = await userService.updateUser(id, { password: pass });
 
     const response = new Response(true, 200, "Password reset successful");
     res.status(response.code).json(response);
