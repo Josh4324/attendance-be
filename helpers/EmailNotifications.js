@@ -9,24 +9,22 @@ class EmailNotifications {
    * @param {string} resetToken Reset Token
    * @returns {function} returns a function
    */
-  static async sendMessage(name, email, message) {
-    const subject = "Password Recovery";
+  static async sendMessage(name, email, message, receiver, group) {
+    console.log(name, email, message, receiver, group);
+    const subject = "Contact Us Message";
     const image = "";
     const emailBody = `
+        <h1>${group}</h1>
+
         <h3 class="username">User name - ${name},</h3>
         <h3 class="username">User email - ${email},</h3>
        
-        <p class="message">
+        <p class="message"> Message -
          ${message}
         </p>
        `;
     const content = template(subject, emailBody, image);
-    mailer.sendMail(
-      "adesanyajoshua@ymail.com",
-      subject,
-      content,
-      "adesanyajoshua@gmail.com"
-    );
+    mailer.sendMail(receiver, subject, content);
   }
 
   /**

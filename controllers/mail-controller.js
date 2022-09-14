@@ -5,10 +5,16 @@ const mailService = new MailService();
 
 exports.sendMessage = async (req, res) => {
   try {
-    const { name, email, message } = req.body;
+    const { name, email, message, receiver, group } = req.body;
 
     // send verification mail
-    const mail = await mailService.sendEmail(name, email, message);
+    const mail = await mailService.sendEmail(
+      name,
+      email,
+      message,
+      receiver,
+      group
+    );
 
     const response = new Response(true, 200, "Message sent successfully");
     res.status(response.code).json(response);
