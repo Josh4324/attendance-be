@@ -220,9 +220,37 @@ exports.updateProfile = async (req, res) => {
 exports.getProfile = async (req, res) => {
   try {
     const { name } = req.body;
-    console.log(name);
 
     const user = await userService.findUserWithName(name);
+
+    const response = new Response(
+      true,
+      200,
+      "User profile updated successfully",
+      user
+    );
+    res.status(response.code).json(response);
+  } catch (err) {
+    console.log(err);
+    const response = new Response(
+      false,
+      500,
+      "An error ocurred, please try again",
+      err
+    );
+    res.status(response.code).json(response);
+  }
+};
+
+exports.getProfile2 = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    console.log(id);
+
+    const user = await userService.findUserWithStaffId(id);
+
+    console.log(user);
 
     const response = new Response(
       true,

@@ -7,9 +7,31 @@ module.exports = class UserService {
   }
 
   async findPendingLeave() {
-    return await Leaves.findAll({
+    return await Leave.findAll({
       where: { status: null },
     });
+  }
+
+  async approveLeave(id) {
+    return await Leave.update(
+      { status: true },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+  }
+
+  async rejectLeave(id) {
+    return await Leave.update(
+      { status: false },
+      {
+        where: {
+          id,
+        },
+      }
+    );
   }
 
   async createLeave(leave) {

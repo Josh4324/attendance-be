@@ -25,7 +25,12 @@ module.exports = class UserService {
   }
 
   async findUserWithStaffId(staff_id) {
-    return await User.findOne({ where: { staff_id } });
+    return await User.findOne({
+      where: { staff_id },
+      attributes: {
+        exclude: ["password", "token"],
+      },
+    });
   }
 
   async findUserWithName(first_name) {

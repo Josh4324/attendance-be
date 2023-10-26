@@ -18,6 +18,8 @@ router.patch("/", token.verifyToken, userController.updateProfile);
 
 router.post("/profile", token.verifyToken, userController.getProfile);
 
+router.post("/profile2", userController.getProfile2);
+
 router.patch("/reset-password", token.verifyToken, userController.reset);
 
 router.post("/delete", token.verifyToken, userController.deleteUser);

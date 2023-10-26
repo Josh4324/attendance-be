@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
       position: DataTypes.STRING,
       start_date: DataTypes.DATE,
       device_id: DataTypes.STRING,
+      annual_leave: DataTypes.INTEGER,
+      days_left: DataTypes.INTEGER,
+      days_used: DataTypes.INTEGER,
     },
     {
       sequelize,
