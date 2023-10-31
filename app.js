@@ -15,6 +15,7 @@ const emailRoutes = require("./routes/email");
 const bookRoutes = require("./routes/book");
 const recordRoutes = require("./routes/record");
 const mailRoutes = require("./routes/mail");
+const leaveRoutes = require("./routes/leave");
 
 const port = process.env.PORT || 3000;
 
@@ -40,6 +41,7 @@ app.use("/api/v1/email", emailRoutes);
 app.use("/api/v1/book", bookRoutes);
 app.use("/api/v1/record", recordRoutes);
 app.use("/api/v1/mail", mailRoutes);
+app.use("/api/v1/leave", leaveRoutes);
 
 app.get("/api", (req, res) => {
   const response = new Response(

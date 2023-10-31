@@ -97,3 +97,22 @@ exports.getUserLeave = async (req, res) => {
     res.status(response.code).json(response);
   }
 };
+
+exports.getPendingLeave = async (req, res) => {
+  try {
+    const leave = await leaveService.findPendingLeave();
+
+    const response = new Response(true, 200, "Success", leave);
+
+    res.status(response.code).json(response);
+  } catch (err) {
+    console.log(err);
+    const response = new Response(
+      false,
+      500,
+      "An error ocurred, please try again",
+      err
+    );
+    res.status(response.code).json(response);
+  }
+};
