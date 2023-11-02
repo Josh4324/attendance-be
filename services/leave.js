@@ -3,11 +3,15 @@ const { Op } = require("sequelize");
 
 module.exports = class UserService {
   async findUserLeave(staff_id) {
-    return await Leave.findAll({ where: { staff_id } });
+    return await Leave.findAll({
+      order: [["createdAt", "DESC"]],
+      where: { staff_id },
+    });
   }
 
   async findPendingLeave() {
     return await Leave.findAll({
+      order: [["createdAt", "DESC"]],
       where: { status: null },
     });
   }
