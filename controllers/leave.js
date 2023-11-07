@@ -1,11 +1,45 @@
 const LeaveService = require("../services/leave");
+const UserService = require("../services/user-service");
 const { Response, Token } = require("../helpers");
 const { v4: uuidv4 } = require("uuid");
 
 const leaveService = new LeaveService();
+const userService = new UserService();
+
+function calculateBusinessDays(startDate, endDate) {
+  // Copy the start date to avoid modifying the original date
+  let currentDate = new Date(startDate);
+  let currentEndDate = new Date(endDate);
+  let businessDays = 0;
+
+  while (currentDate <= currentEndDate) {
+    // Check if the current day is not a weekend (0 = Sunday, 6 = Saturday)
+    if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+      businessDays++;
+    }
+    // Move to the next day
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return businessDays;
+}
 
 exports.createLeave = async (req, res) => {
   try {
+    const user = await userService.findUserWithStaffId(req.body.staff_id);
+
+    let days = calculateBusinessDays(req.body.start_date, req.body.end_date);
+    days = days + user.days_used;
+
+    if (Number(days) > 20) {
+      const response = new Response(
+        true,
+        409,
+        "You cannot apply for the days you requested "
+      );
+      return res.status(response.code).json(response);
+    }
+
     const leave = await leaveService.createLeave(req.body);
 
     const response = new Response(
@@ -31,13 +65,37 @@ exports.approveLeave = async (req, res) => {
   try {
     const { id } = req.body;
 
-    const leave = await leaveService.approveLeave(id);
+    const leave = await leaveService.findLeave(id);
+
+    console.log(leave);
+
+    const user = await userService.findUserWithStaffId(leave.staff_id);
+
+    let days = calculateBusinessDays(leave.start_date, leave.end_date);
+    console.log("days", days);
+
+    const days_left =
+      Number(user.annual_leave) - (Number(days) + Number(user.days_left));
+
+    const days_used = Number(days) + Number(user.days_used);
+
+    console.log(days_left);
+    console.log(days_used);
+
+    const approve = await leaveService.approveLeave(id);
+
+    if (leave.leave_type === "Annual Leave") {
+      await userService.updateUserWithStaffId(leave.staff_id, {
+        days_left,
+        days_used,
+      });
+    }
 
     const response = new Response(
       true,
       200,
       "Leave approved successfully",
-      leave
+      approve
     );
     return res.status(response.code).json(response);
   } catch (err) {

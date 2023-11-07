@@ -16,6 +16,13 @@ module.exports = class UserService {
     });
   }
 
+  async findLeave(id) {
+    return await Leave.findOne({
+      order: [["createdAt", "DESC"]],
+      where: { id },
+    });
+  }
+
   async approveLeave(id) {
     return await Leave.update(
       { status: true },
