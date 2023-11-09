@@ -281,6 +281,245 @@ class EmailNotifications {
     const message = template(title, body, image);
     mailer.sendMail(email, title, message);
   }
+
+  /**
+   * @param {*} email
+   * @param {*} name
+   * @returns {*} sends an email to a new user
+   */
+  static async sendApprovalEmail(email, name) {
+    const subject = "Leave Approval";
+    const body = `
+    <span class="preheader">Use this link to reset your password. The link is only valid for 24 hours.</span>
+    <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+      <tr>
+        <td align="center">
+          <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+            <tr>
+              <td class="email-masthead">
+                <a href="https://example.com" class="f-fallback email-masthead_name">
+                GRID
+              </a>
+              </td>
+            </tr>
+            <!-- Email Body -->
+            <tr>
+              <td class="email-body" width="570" cellpadding="0" cellspacing="0">
+                <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                  <!-- Body content -->
+                  <tr>
+                    <td class="content-cell">
+                      <div class="f-fallback">
+                        <h1>Hi ${name},</h1>
+                        <p>You have succesfully applied, please wait patienty as it goes through approval</p>
+                        <!-- Action -->  
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                  <tr>
+                    <td class="content-cell" align="center">
+                    <p class="f-fallback sub align-center">
+                    Baker Industries
+                    <br>No 32, Aje Street, Sabo Yaba, Lagos State.
+                    </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+             `;
+    const content = template(subject, body);
+    mailer.sendMail(email, subject, content);
+  }
+
+  /**
+   * @param {*} email
+   * @param {*} name
+   * @returns {*} sends an email to a new user
+   */
+  static async sendApprovalAcceptanceEmail(email, name) {
+    const subject = "Leave Approval";
+    const body = `
+    <span class="preheader">Use this link to reset your password. The link is only valid for 24 hours.</span>
+    <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+      <tr>
+        <td align="center">
+          <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+            <tr>
+              <td class="email-masthead">
+                <a href="https://example.com" class="f-fallback email-masthead_name">
+                GRID
+              </a>
+              </td>
+            </tr>
+            <!-- Email Body -->
+            <tr>
+              <td class="email-body" width="570" cellpadding="0" cellspacing="0">
+                <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                  <!-- Body content -->
+                  <tr>
+                    <td class="content-cell">
+                      <div class="f-fallback">
+                        <h1>Hi ${name},</h1>
+                        <p>Your Leave application was accepted</p>
+                        <!-- Action -->  
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                  <tr>
+                    <td class="content-cell" align="center">
+                    <p class="f-fallback sub align-center">
+                    Baker Industries
+                    <br>No 32, Aje Street, Sabo Yaba, Lagos State.
+                    </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+             `;
+    const content = template(subject, body);
+    mailer.sendMail(email, subject, content);
+  }
+
+  /**
+   * @param {*} email
+   * @param {*} name
+   * @returns {*} sends an email to a new user
+   */
+  static async sendApprovalRejectionEmail(email, name) {
+    const subject = "Leave Application Rejected";
+    const body = `
+    <span class="preheader">Use this link to reset your password. The link is only valid for 24 hours.</span>
+    <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+      <tr>
+        <td align="center">
+          <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+            <tr>
+              <td class="email-masthead">
+                <a href="https://example.com" class="f-fallback email-masthead_name">
+                GRID
+              </a>
+              </td>
+            </tr>
+            <!-- Email Body -->
+            <tr>
+              <td class="email-body" width="570" cellpadding="0" cellspacing="0">
+                <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                  <!-- Body content -->
+                  <tr>
+                    <td class="content-cell">
+                      <div class="f-fallback">
+                        <h1>Hi ${name},</h1>
+                        <p>Your Leave application was rejected</p>
+                        <!-- Action -->  
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                  <tr>
+                    <td class="content-cell" align="center">
+                    <p class="f-fallback sub align-center">
+                    Baker Industries
+                    <br>No 32, Aje Street, Sabo Yaba, Lagos State.
+                    </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+             `;
+    const content = template(subject, body);
+    mailer.sendMail(email, subject, content);
+  }
+
+  /**
+   * @param {*} email
+   * @param {*} name
+   * @returns {*} sends an email to a new user
+   */
+  static async sendHREmail(email, name) {
+    const subject = "Leave Approval";
+    const body = `
+    <span class="preheader">Use this link to reset your password. The link is only valid for 24 hours.</span>
+    <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+      <tr>
+        <td align="center">
+          <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+            <tr>
+              <td class="email-masthead">
+                <a href="https://example.com" class="f-fallback email-masthead_name">
+                GRID
+              </a>
+              </td>
+            </tr>
+            <!-- Email Body -->
+            <tr>
+              <td class="email-body" width="570" cellpadding="0" cellspacing="0">
+                <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                  <!-- Body content -->
+                  <tr>
+                    <td class="content-cell">
+                      <div class="f-fallback">
+                        <p>${name} just created a leave application</p>
+                        <!-- Action -->  
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                  <tr>
+                    <td class="content-cell" align="center">
+                    <p class="f-fallback sub align-center">
+                    Baker Industries
+                    <br>No 32, Aje Street, Sabo Yaba, Lagos State.
+                    </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+             `;
+    const content = template(subject, body);
+    mailer.sendMail(email, subject, content);
+  }
 }
 
 module.exports = EmailNotifications;
