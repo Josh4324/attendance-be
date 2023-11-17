@@ -1,10 +1,12 @@
 const LeaveService = require("../services/leave");
+const MailService = require("../services/mail");
 const UserService = require("../services/user-service");
 const { Response, Token } = require("../helpers");
 const { v4: uuidv4 } = require("uuid");
 
 const leaveService = new LeaveService();
 const userService = new UserService();
+const mailService = new MailService();
 
 function calculateBusinessDays(startDate, endDate) {
   // Copy the start date to avoid modifying the original date
@@ -42,6 +44,8 @@ exports.createLeave = async (req, res) => {
 
     const leave = await leaveService.createLeave(req.body);
 
+    mailService.sendhrEmail("hr@bakerindustries.io", user.first_name);
+
     const response = new Response(
       true,
       201,
@@ -67,8 +71,6 @@ exports.approveLeave = async (req, res) => {
 
     const leave = await leaveService.findLeave(id);
 
-    console.log(leave);
-
     const user = await userService.findUserWithStaffId(leave.staff_id);
 
     let days = calculateBusinessDays(leave.start_date, leave.end_date);
@@ -79,10 +81,9 @@ exports.approveLeave = async (req, res) => {
 
     const days_used = Number(days) + Number(user.days_used);
 
-    console.log(days_left);
-    console.log(days_used);
-
     const approve = await leaveService.approveLeave(id);
+
+    mailService.sendApprovalEmail(user.email, user.first_name);
 
     if (leave.leave_type === "Annual Leave") {
       await userService.updateUserWithStaffId(leave.staff_id, {

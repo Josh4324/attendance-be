@@ -298,7 +298,7 @@ class EmailNotifications {
             <tr>
               <td class="email-masthead">
                 <a href="https://example.com" class="f-fallback email-masthead_name">
-                GRID
+                BAKER
               </a>
               </td>
             </tr>
@@ -358,7 +358,7 @@ class EmailNotifications {
             <tr>
               <td class="email-masthead">
                 <a href="https://example.com" class="f-fallback email-masthead_name">
-                GRID
+                BAKER
               </a>
               </td>
             </tr>
@@ -418,7 +418,7 @@ class EmailNotifications {
             <tr>
               <td class="email-masthead">
                 <a href="https://example.com" class="f-fallback email-masthead_name">
-                GRID
+                BAKER
               </a>
               </td>
             </tr>
@@ -470,7 +470,6 @@ class EmailNotifications {
   static async sendHREmail(email, name) {
     const subject = "Leave Approval";
     const body = `
-    <span class="preheader">Use this link to reset your password. The link is only valid for 24 hours.</span>
     <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
       <tr>
         <td align="center">
@@ -478,7 +477,7 @@ class EmailNotifications {
             <tr>
               <td class="email-masthead">
                 <a href="https://example.com" class="f-fallback email-masthead_name">
-                GRID
+                BAKER
               </a>
               </td>
             </tr>
