@@ -1,4 +1,5 @@
 const Leave = require("../models/index")["Leave"];
+const User = require("../models/index")["User"];
 const { Op } = require("sequelize");
 
 module.exports = class UserService {
@@ -6,6 +7,12 @@ module.exports = class UserService {
     return await Leave.findAll({
       order: [["createdAt", "DESC"]],
       where: { staff_id },
+      include: [
+        {
+          model: User,
+          as: "user",
+        },
+      ],
     });
   }
 
@@ -13,6 +20,12 @@ module.exports = class UserService {
     return await Leave.findAll({
       order: [["createdAt", "DESC"]],
       where: { status: null },
+      include: [
+        {
+          model: User,
+          as: "user",
+        },
+      ],
     });
   }
 
@@ -20,6 +33,12 @@ module.exports = class UserService {
     return await Leave.findOne({
       order: [["createdAt", "DESC"]],
       where: { id },
+      include: [
+        {
+          model: User,
+          as: "user",
+        },
+      ],
     });
   }
 

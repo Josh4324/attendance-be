@@ -74,7 +74,6 @@ exports.approveLeave = async (req, res) => {
     const user = await userService.findUserWithStaffId(leave.staff_id);
 
     let days = calculateBusinessDays(leave.start_date, leave.end_date);
-    console.log("days", days);
 
     const days_left =
       Number(user.annual_leave) - (Number(days) + Number(user.days_left));
